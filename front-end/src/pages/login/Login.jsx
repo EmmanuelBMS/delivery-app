@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import useHandleChange from '../../hooks/useHandleChange';
@@ -9,14 +9,15 @@ const MIN_PASSWORD_LENGTH = 6;
 const INITIAL_INPUTS_STATE = {
   email: '',
   password: '',
-}
+};
 export default function Login() {
-  const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE)
+  const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
   const [isModalOpen, toggleModalStatus] = useModal();
-  const navegate = useNavigate()
+  const { email, password } = inputs;
+  const navegate = useNavigate();
   const emailRegex = /\S+@\S+\.\S+/;
-  const isLoginInfosValid = !emailRegex.test(inputs.email)
-    || inputs.password.length < MIN_PASSWORD_LENGTH;
+  const isLoginInfosValid = !emailRegex.test(email)
+    || password.length < MIN_PASSWORD_LENGTH;
 
   async function handleLoginRequest(userLogin) {
     try {
@@ -44,7 +45,7 @@ export default function Login() {
     handleLoginRequest(loginInfos);
   }
   function handleRegisterBtn() {
-    navegate('/register')
+    navegate('/register');
   }
   return (
     <div className="flex flex-col gap-5 items-center justify-center">
@@ -58,7 +59,7 @@ export default function Login() {
       </div>
       <div className="bg-zinc-200 rounded-lg p-4 h-[18rem]">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={ handleSubmit }
           className="flex flex-col gap-4"
         >
           <label
@@ -68,10 +69,10 @@ export default function Login() {
             Email
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={handleChange}
+              onChange={ handleChange }
               id="emailInput"
               name="email"
-              value={inputs.email}
+              value={ email }
               type="email"
               placeholder="Email"
               data-testid="common_login__input-email"
@@ -85,17 +86,17 @@ export default function Login() {
             Senha
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={handleChange}
+              onChange={ handleChange }
               id="passwordInput"
               name="password"
-              value={inputs.password}
+              value={ password }
               type="password"
               placeholder="Senha"
               data-testid="common_login__input-password"
             />
           </label>
           <button
-            disabled={isLoginInfosValid || isModalOpen}
+            disabled={ isLoginInfosValid || isModalOpen }
             className="loginBtn"
             type="submit"
             data-testid="common_login__button-login"
@@ -103,8 +104,8 @@ export default function Login() {
             Login
           </button>
           <button
-            onClick={handleRegisterBtn}
-            disabled={isModalOpen}
+            onClick={ handleRegisterBtn }
+            disabled={ isModalOpen }
             className="toRegisterBtn"
             type="button"
             data-testid="common_login__button-register"
@@ -117,7 +118,7 @@ export default function Login() {
         <AlertModal
           message="Erro: Usuario nao encontrado"
           dataTestId="common_login__element-invalid-email"
-          toggleModalStatus={toggleModalStatus}
+          toggleModalStatus={ toggleModalStatus }
         />
       )}
     </div>

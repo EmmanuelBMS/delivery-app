@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './alertModal.css';
 
-export default function AlertModal({ toggleModalStatus,message,dataTestId }) {
+export default function AlertModal({ toggleModalStatus, message, dataTestId }) {
   return (
     <div className="modalContainer">
-      <strong data-testid={`${dataTestId}`} className="text-bold">
+      <strong data-testid={ `${dataTestId}` } className="text-bold">
         {message}
       </strong>
       <button
@@ -21,4 +21,6 @@ export default function AlertModal({ toggleModalStatus,message,dataTestId }) {
 
 AlertModal.propTypes = {
   toggleModalStatus: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
+  dataTestId: PropTypes.string.isRequired,
 };

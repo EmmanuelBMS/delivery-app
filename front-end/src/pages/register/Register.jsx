@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import useModal from '../../hooks/useModal';
 import useHandleChange from '../../hooks/useHandleChange';
-import '../register/register.css';
+import './register.css';
 
 const MIN_PASSWORD_LENGTH = 6;
-const INITIAL_INPUTS_STATE={
-  email:'',
-  password:'',
-  name:'',
-}
+const MIN_NAME_LENGHT = 12;
+const INITIAL_INPUTS_STATE = {
+  email: '',
+  password: '',
+  name: '',
+};
+
 export default function Register() {
-  const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE)
+  const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
   const [isModalOpen, toggleModalStatus] = useModal();
-  const navegate = useNavigate()
   const emailRegex = /\S+@\S+\.\S+/;
-  const isValidEmail = !emailRegex.test(inputs.email);
-  const isValidPassword = inputs.password.length < MIN_PASSWORD_LENGTH;
-  const isValidName = inputs.name.length < 12 || inputs.name.indexOf(' ') >= 0;
+  const { name, email, password } = inputs;
+  const isValidEmail = !emailRegex.test(email);
+  const isValidPassword = password.length < MIN_PASSWORD_LENGTH;
+  const isValidName = name.length < MIN_NAME_LENGHT || name.indexOf(' ') >= 0;
   const isRegisterInfosValid = isValidEmail || isValidPassword || isValidName;
 
   async function handleRegisterRequest(newUser) {
@@ -48,26 +49,26 @@ export default function Register() {
   return (
     <div className="flex flex-col gap-5 items-center justify-center">
       <h1
-      className='text-xl font-bold'
+        className="text-xl mt-10 font-bold"
       >
-        cadastro 
+        Cadastro
       </h1>
       <div className="bg-zinc-200 rounded-lg p-4 h-[18rem]">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={ handleSubmit }
           className="flex flex-col gap-4"
         >
-           <label
+          <label
             className="flex flex-col"
             htmlFor="emailInput"
           >
             Nome
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={handleChange}
+              onChange={ handleChange }
               id="emailInput"
               name="name"
-              value={inputs.name}
+              value={ name }
               type="text"
               placeholder="seu nome"
               data-testid="common_register__input-name"
@@ -80,10 +81,10 @@ export default function Register() {
             Email
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={handleChange}
+              onChange={ handleChange }
               id="emailInput"
               name="email"
-              value={inputs.email}
+              value={ email }
               type="email"
               placeholder="seu-email@site.com.br"
               data-testid="common_register__input-email"
@@ -97,17 +98,17 @@ export default function Register() {
             Senha
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={handleChange}
+              onChange={ handleChange }
               id="passwordInput"
               name="password"
-              value={inputs.password}
+              value={ password }
               type="password"
               placeholder="Senha"
               data-testid="common_register__input-password"
             />
           </label>
           <button
-            disabled={isRegisterInfosValid || isModalOpen}
+            disabled={ isRegisterInfosValid || isModalOpen }
             className="registerBtn"
             type="submit"
             data-testid="common_register__button-register"
@@ -121,7 +122,7 @@ export default function Register() {
         <AlertModal
           message="Erro: email ja cadastrado!"
           dataTestId="common_register__element-invalid_register"
-          toggleModalStatus={toggleModalStatus}
+          toggleModalStatus={ toggleModalStatus }
         />
       )}
     </div>
