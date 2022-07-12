@@ -13,9 +13,26 @@ export default function Login() {
   function handleChange(e) {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   }
+  async function handleLoginRequest(userLogin) {
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify(userLogin),
+      });
+      if (response.data) {
+        console.log('Login successful');
+      /*  setUserRole(response.data.role);
+        sessionStorage.setItem('userRole', response.data.role);
+        navegate('/project'); */
+      }
+    } catch (error) {
+      toggleModalStatus();
+    }
+  }
   function handleSubmit(e) {
     e.preventDefault();
-    toggleModalStatus();
+    const loginInfos = inputs;
+    handleLoginRequest(loginInfos);
   }
 
   return (
