@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './alertModal.css';
 
-export default function AlertModal({ toggleModalStatus }) {
+export default function AlertModal({ toggleModalStatus,message,dataTestId }) {
   return (
     <div className="modalContainer">
-      <strong data-testid="common_login__element-invalid-email" className="text-bold">
-        Erro: Usuario nao encontrado
+      <strong data-testid={`${dataTestId}`} className="text-bold">
+        {message}
       </strong>
       <button
         className="modalCloseBtn"
