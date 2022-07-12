@@ -1,11 +1,11 @@
 import React from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <span className="logo">TRYBE</span>
-      <h1 className="text-red-800">dsadasdasdad</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={ <Navigate to="/login" replace /> } />
+    </Routes>
   );
 }
 
