@@ -11,17 +11,18 @@ const login = async (email, password) => {
   const passCrypto = crypto.createHash('md5').update(password).digest('hex');
 
   if (!user || passCrypto !== user.password) {
-    throw generateError({ 
-      status: StatusCodes.BAD_REQUEST, 
+    throw generateError({
+      status: StatusCodes.BAD_REQUEST,
       message: errorMessages.incorrectFields,
     });
   }
   console.log(user);
 
   delete user.password;
+  delete user.id;
   const token = generate(user);
 
-  return { user, token };
+  return { ...user, token };
 };
 
 module.exports = {
