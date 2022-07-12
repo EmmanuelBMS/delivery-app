@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const { User } = require('../../../database/models');
-const user = require('../../../database/models/user');
-const generateError = require('../../../helpers/generateErro');
+const generateError = require('../../../helpers/generateError');
 const { generate } = require('../../../helpers/tokenAuth');
 
 const findOne = async (email) => {
@@ -15,8 +14,9 @@ const findOne = async (email) => {
 const create = async (newUser) => {
   await findOne(newUser.email);
   const passCrypto = crypto.createHash('md5').update(newUser.password).digest('hex');
-  newUser.password = passCrypto;
-  const { dataValues: userCreated } = await User.create(newUser);
+  const objUser = newUser;
+  objUser.password = passCrypto;
+  const { dataValues: userCreated } = await User.create(objUser);
   delete userCreated.password;
   const token = generate(userCreated);
   return { token };
