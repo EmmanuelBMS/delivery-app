@@ -1,4 +1,4 @@
-const error = (err, req, res, next) => {
+const error = (err, req, res, _next) => {
   console.log(err);
   if (err.message) {
     res.status(err.status || 500).json({ message: err.message });
