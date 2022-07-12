@@ -1,10 +1,32 @@
 .loginBtn{
-  @apply bg-green-500 hover:bg-green-700 focus:bg-green-700 
-  transition-colors outline-transparent border p-2 text-white font-bold 
-  uppercase rounded-md disabled:opacity-60 disabled:hover:bg-green-500;
-}
+  @apply font-bold uppercase rounded-md disabled:opacity-60 ;
 
+}
+.loginBtn2{
+  @apply transition-colors outline-transparent border p-2 text-white ;
+
+}
+.loginBtn3{
+  @apply font-bold uppercase rounded-md disabled:opacity-60 ;
+
+}
+.loginBtnColor{
+  @apply bg-green-500 hover:bg-green-700 focus:bg-green-700 disabled:hover:bg-green-500 ;
+
+}
 .toRegisterBtn{
-  @apply text-green-500 outline-transparent border p-2 transition-colors hover:bg-green-500 hover:text-white text-sm focus:bg-green-500 focus:text-white border-green-500 bg-transparent font-bold uppercase rounded-md;
+  @apply text-green-500 border p-2 transition-colors hover:bg-green-500 ;
+
+}
+.toRegisterBtn2{
+  @apply hover:text-white text-sm focus:bg-green-500 focus:text-white ;
+
+}
+.toRegisterBtn3{
+  @apply  border-green-500 bg-transparent font-bold  rounded-md ;
+
+}
+.toRegisterBtnColors{
+  @apply text-green-500  hover:bg-green-500 hover:text-white text-sm focus:bg-green-500 ;
 
 }
