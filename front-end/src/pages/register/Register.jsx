@@ -23,13 +23,14 @@ export default function Register() {
   const isRegisterInfosValid = isValidEmail || isValidPassword || isValidName;
 
   async function handleRegisterRequest(newUser) {
+    const newUserWithRole = { ...newUser, role: 'customer' };
     try {
       const response = await fetch('http://localhost:3001/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify(newUserWithRole),
       });
       const json = await response.json();
 

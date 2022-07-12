@@ -97,7 +97,7 @@ export default function Login() {
           </label>
           <button
             disabled={ isLoginInfosValid || isModalOpen }
-            className="loginBtn"
+            className="loginBtn font-bold uppercase rounded-md disabled:opacity-60"
             type="submit"
             data-testid="common_login__button-login"
           >
