@@ -1,12 +1,13 @@
 const express = require('express');
 const error =  require('./middleware/error.middleware')
-const userRoute =  require('./routes/user.route')
+
+const appRouter = require('./routes');
 
 const app = express();
-// app.use(crossOriginIsolated)
+
 app.use(express.json())
 
-app.use('/register', userRoute )
+appRouter(app)
 
 app.use(error)
 
