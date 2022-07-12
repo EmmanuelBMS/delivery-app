@@ -15,15 +15,20 @@ export default function Login() {
   }
   async function handleLoginRequest(userLogin) {
     try {
-      const response = await fetch('/login', {
+      const response = await fetch('http://localhost:3001/login', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(userLogin),
       });
-      if (response.data) {
-        console.log('Login successful');
-      /*  setUserRole(response.data.role);
-        sessionStorage.setItem('userRole', response.data.role);
-        navegate('/project'); */
+      const json = await response.json();
+
+      if (json) {
+        console.log(json);
+        localStorage.setItem('user', json);
+        /*  setUserRole(response.data.role);
+          navegate('/project'); */
       }
     } catch (error) {
       toggleModalStatus();
@@ -47,7 +52,7 @@ export default function Login() {
       </div>
       <div className="bg-zinc-200 rounded-lg p-4 h-[18rem]">
         <form
-          onSubmit={ handleSubmit }
+          onSubmit={handleSubmit}
           className="flex flex-col gap-4"
         >
           <label
@@ -57,10 +62,10 @@ export default function Login() {
             Email
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={ handleChange }
+              onChange={handleChange}
               id="emailInput"
               name="email"
-              value={ inputs.email }
+              value={inputs.email}
               type="text"
               placeholder="Email"
               data-testid="common_login__input-email"
@@ -74,17 +79,17 @@ export default function Login() {
             Senha
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={ handleChange }
+              onChange={handleChange}
               id="passwordInput"
               name="password"
-              value={ inputs.password }
+              value={inputs.password}
               type="password"
               placeholder="Senha"
               data-testid="common_login__input-password"
             />
           </label>
           <button
-            disabled={ isLoginInfosValid || isModalOpen }
+            disabled={isLoginInfosValid || isModalOpen}
             className="loginBtn"
             type="submit"
             data-testid="common_login__button-login"
@@ -92,7 +97,7 @@ export default function Login() {
             Login
           </button>
           <button
-            disabled={ isModalOpen }
+            disabled={isModalOpen}
             className="registerBtn"
             type="button"
             data-testid="common_login__button-register"
@@ -101,7 +106,7 @@ export default function Login() {
           </button>
         </form>
       </div>
-      {isModalOpen && (<AlertModal toggleModalStatus={ toggleModalStatus } />)}
+      {isModalOpen && (<AlertModal toggleModalStatus={toggleModalStatus} />)}
     </div>
   );
 }
