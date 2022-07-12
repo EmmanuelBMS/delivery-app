@@ -1,14 +1,15 @@
 const express = require('express');
-const error =  require('./middleware/error.middleware')
+const cors = require('cors');
+const error = require('./middleware/error.middleware');
 
 const appRouter = require('./routes');
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.use(express.json())
+appRouter(app);
 
-appRouter(app)
-
-app.use(error)
+app.use(error);
 
 module.exports = app;
