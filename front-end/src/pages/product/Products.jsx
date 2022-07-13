@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import { Plus, Minus } from 'phosphor-react'
 import './products.css'
+import { Link } from 'react-router-dom';
 
 const api = [{
   id: 1,
@@ -76,6 +77,13 @@ export default function Products() {
             </div>
           ))
         }
+        <Link
+          className='checkoutButton'
+          data-testid="customer_products__checkout-bottom-value"
+          to='/'
+        >
+          Ver Carrinho: <span>RS {1222}</span>
+        </Link>
       </main>
     </div>
   );
