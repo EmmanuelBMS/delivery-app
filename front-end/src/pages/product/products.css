@@ -1,0 +1,11 @@
+.productCard {
+
+  @apply w-[14rem] border-2 shadow-sm shadow-black rounded
+
+}
+
+.productCard > img {
+
+  @apply object-cover relative bottom-5 -z-10
+
+}
