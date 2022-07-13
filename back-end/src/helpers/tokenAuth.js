@@ -13,8 +13,12 @@ const generate = (payload) => {
 };
 
 const verificateToken = (token) => {
-  const decoded = JWT.verify(token, readFileSync('jwt.evaluation.key', 'utf8'));
-  return decoded;
+  try {
+    const decoded = JWT.verify(token, readFileSync('jwt.evaluation.key', 'utf8'));
+    return decoded;
+  } catch (error) {
+    return null;
+  }
  };
 
 module.exports = {

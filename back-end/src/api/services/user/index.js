@@ -1,18 +1,22 @@
 const crypto = require('crypto');
+const { StatusCodes } = require('http-status-codes');
+const { Op } = require('sequelize');
+
 const { User } = require('../../../database/models');
+const errorMessages = require('../../../helpers/errorMessages');
 const generateError = require('../../../helpers/generateError');
 const { generate } = require('../../../helpers/tokenAuth');
 
-const findOne = async (email) => {
-  const user = await User.findOne({ where: { email } });
+const findOne = async (email, name) => {
+  const user = await User.findOne({ where: { [Op.or]: [{ name }, { email }] } });
   if (user) {
-    throw generateError({ status: 404, message: 'Email already exist' });
+    throw generateError({ status: StatusCodes.BAD_REQUEST, message: errorMessages.userExist });
   }
   return user;
 };
 
 const create = async (newUser) => {
-  await findOne(newUser.email);
+  await findOne(newUser.email, newUser.name);
   const passCrypto = crypto.createHash('md5').update(newUser.password).digest('hex');
   const objUser = newUser;
   objUser.password = passCrypto;
