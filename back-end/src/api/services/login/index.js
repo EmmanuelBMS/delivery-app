@@ -12,7 +12,7 @@ const login = async (email, password) => {
 
   if (!user || passCrypto !== user.password) {
     throw generateError({
-      status: StatusCodes.BAD_REQUEST,
+      status: StatusCodes.NOT_FOUND,
       message: errorMessages.incorrectFields,
     });
   }
