@@ -24,7 +24,7 @@ export default function Products() {
   useEffect(() => {
     getUserToLocalStorage();
     handleProductsRequest();
-  }, [getUserToLocalStorage]);
+  }, []);
 
   const changeDotToCommaOfPrice = (price) => price.toString().replace('.', ',');
   return (
