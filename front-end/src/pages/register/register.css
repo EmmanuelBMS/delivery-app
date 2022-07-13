@@ -1,0 +1,11 @@
+.registerBtn {
+
+  @apply bg-green-500 hover:bg-green-700 rounded-md disabled:opacity-60 ;
+
+  @apply disabled:hover:bg-green-500 ;
+
+  @apply focus:bg-green-700 transition-colors outline-transparent ;
+
+  @apply border p-2 text-white font-bold uppercase ;
+
+}
