@@ -1,4 +1,5 @@
 .modalContainer {
+
   @apply absolute w-[30rem] flex flex-col items-center ;
 
   @apply justify-between rounded p-4 h-40 bg-zinc-400 ;
@@ -6,6 +7,7 @@
 }
 
 .modalCloseBtn {
+
   @apply bg-red-500 hover:bg-red-700 px-4 py-1 text-white rounded ;
 
 }
