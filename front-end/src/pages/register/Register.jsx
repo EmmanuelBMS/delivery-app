@@ -34,13 +34,13 @@ export default function Register() {
         body: JSON.stringify(newUserWithRole),
       });
       const json = await response.json();
-      console.log(json);
-      if (json) {
+      if (json.message) {
         /*  setUserRole(response.data.role);
-          navegate('/project'); */
+        navegate('/project'); */
+        toggleModalStatus();
       }
     } catch (error) {
-      toggleModalStatus();
+      console.log(error);
     }
   }
   function handleSubmit(e) {

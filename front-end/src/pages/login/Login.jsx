@@ -34,9 +34,8 @@ export default function Login() {
 
       if (json) {
         setUser(json);
-        localStorage.setItem('user', json);
-        /*  setUserRole(response.data.role);
-          navegate('/project'); */
+        localStorage.setItem('user', JSON.stringify(json));
+        navegate('/customer/products');
       }
     } catch (error) {
       toggleModalStatus();

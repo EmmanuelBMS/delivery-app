@@ -17,7 +17,7 @@ export default function UserContextProvider({ children }) {
       });
       const json = await response.json();
       console.log(json);
-      if (!json) {
+      if (json.message) {
         navigate('/login');
       }
     } catch (error) {
@@ -25,7 +25,7 @@ export default function UserContextProvider({ children }) {
     }
   }
   async function getUserToLocalStorage() {
-    const userLocalStorage = localStorage.getItem('user');
+    const userLocalStorage = JSON.parse(localStorage.getItem('user'));
     const token = { token: userLocalStorage.token };
     await requestTokenValidate(token);
     setUser(userLocalStorage);
