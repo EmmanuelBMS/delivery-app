@@ -32,13 +32,17 @@ export default function Login() {
       });
       const json = await response.json();
 
+      if (json.message) {
+        return toggleModalStatus();
+      }
+
       if (json) {
         setUser(json);
         localStorage.setItem('user', JSON.stringify(json));
         navegate('/customer/products');
       }
     } catch (error) {
-      toggleModalStatus();
+      console.log(error);
     }
   }
   function handleSubmit(e) {
