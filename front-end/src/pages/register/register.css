@@ -1,14 +1,6 @@
 .registerBtn{
-  @apply uppercase rounded-md disabled:opacity-60 ;
-
-  }
-
-.registerBtn2{
-  @apply first-line:transition-colors outline-transparent border p-2 text-white font-bold ;
-
-  }
-
-  .registerBtnColor:{
-  @apply bg-green-500 hover:bg-green-700 focus:bg-green-700 disabled:hover:bg-green-500 ;
-  
-  }
+  @apply bg-green-500 hover:bg-green-700 rounded-md disabled:opacity-60;
+  @apply  disabled:hover:bg-green-500;   
+  @apply focus:bg-green-700 transition-colors outline-transparent;
+  @apply border p-2 text-white font-bold uppercase;
+}
