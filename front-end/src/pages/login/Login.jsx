@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
-import AlertModal from '../components/AlertModal/AlertModal';
-import useModal from '../hooks/useModal';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import AlertModal from '../../components/AlertModal/AlertModal';
+import useHandleChange from '../../hooks/useHandleChange';
+import useModal from '../../hooks/useModal';
 import './login.css';
 
 const MIN_PASSWORD_LENGTH = 6;
+const INITIAL_INPUTS_STATE = {
+  email: '',
+  password: '',
+};
 export default function Login() {
-  const [inputs, setInputs] = useState({ email: '', password: '' });
+  const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
   const [isModalOpen, toggleModalStatus] = useModal();
+  const { email, password } = inputs;
+  const navegate = useNavigate();
   const emailRegex = /\S+@\S+\.\S+/;
-  const isLoginInfosValid = !emailRegex.test(inputs.email)
-    || inputs.password.length < MIN_PASSWORD_LENGTH;
-  function handleChange(e) {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
-  }
+  const isLoginInfosValid = !emailRegex.test(email)
+    || password.length < MIN_PASSWORD_LENGTH;
+
   async function handleLoginRequest(userLogin) {
     try {
       const response = await fetch('http://localhost:3001/login', {
@@ -25,7 +31,6 @@ export default function Login() {
       const json = await response.json();
 
       if (json) {
-        console.log(json);
         localStorage.setItem('user', json);
         /*  setUserRole(response.data.role);
           navegate('/project'); */
@@ -39,7 +44,9 @@ export default function Login() {
     const loginInfos = inputs;
     handleLoginRequest(loginInfos);
   }
-
+  function handleRegisterBtn() {
+    navegate('/register');
+  }
   return (
     <div className="flex flex-col gap-5 items-center justify-center">
       <div className="flex px-4 gap-2 mt-14 flex-col">
@@ -52,7 +59,7 @@ export default function Login() {
       </div>
       <div className="bg-zinc-200 rounded-lg p-4 h-[18rem]">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={ handleSubmit }
           className="flex flex-col gap-4"
         >
           <label
@@ -62,11 +69,11 @@ export default function Login() {
             Email
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={handleChange}
+              onChange={ handleChange }
               id="emailInput"
               name="email"
-              value={inputs.email}
-              type="text"
+              value={ email }
+              type="email"
               placeholder="Email"
               data-testid="common_login__input-email"
             />
@@ -79,26 +86,27 @@ export default function Login() {
             Senha
             <input
               className="border rounded focus:outline-green-500 p-1 outline-transparent"
-              onChange={handleChange}
+              onChange={ handleChange }
               id="passwordInput"
               name="password"
-              value={inputs.password}
+              value={ password }
               type="password"
               placeholder="Senha"
               data-testid="common_login__input-password"
             />
           </label>
           <button
-            disabled={isLoginInfosValid || isModalOpen}
-            className="loginBtn"
+            disabled={ isLoginInfosValid || isModalOpen }
+            className="loginBtn loginBtn2 loginBtn3"
             type="submit"
             data-testid="common_login__button-login"
           >
             Login
           </button>
           <button
-            disabled={isModalOpen}
-            className="registerBtn"
+            onClick={ handleRegisterBtn }
+            disabled={ isModalOpen }
+            className="toRegisterBtn"
             type="button"
             data-testid="common_login__button-register"
           >
@@ -106,7 +114,13 @@ export default function Login() {
           </button>
         </form>
       </div>
-      {isModalOpen && (<AlertModal toggleModalStatus={toggleModalStatus} />)}
+      {isModalOpen && (
+        <AlertModal
+          message="Erro: Usuario nao encontrado"
+          dataTestId="common_login__element-invalid-email"
+          toggleModalStatus={ toggleModalStatus }
+        />
+      )}
     </div>
   );
 }
