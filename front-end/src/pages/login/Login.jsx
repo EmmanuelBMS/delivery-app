@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '../../components/AlertModal/AlertModal';
+import { userContext } from '../../context/UserContextProvider';
 import useHandleChange from '../../hooks/useHandleChange';
 import useModal from '../../hooks/useModal';
 import './login.css';
@@ -12,6 +13,7 @@ const INITIAL_INPUTS_STATE = {
 };
 export default function Login() {
   const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
+  const { setUser } = useContext(userContext);
   const [isModalOpen, toggleModalStatus] = useModal();
   const { email, password } = inputs;
   const navegate = useNavigate();
@@ -30,13 +32,17 @@ export default function Login() {
       });
       const json = await response.json();
 
+      if (json.message) {
+        return toggleModalStatus();
+      }
+
       if (json) {
-        localStorage.setItem('user', json);
-        /*  setUserRole(response.data.role);
-          navegate('/project'); */
+        setUser(json);
+        localStorage.setItem('user', JSON.stringify(json));
+        navegate('/customer/products');
       }
     } catch (error) {
-      toggleModalStatus();
+      console.log(error);
     }
   }
   function handleSubmit(e) {

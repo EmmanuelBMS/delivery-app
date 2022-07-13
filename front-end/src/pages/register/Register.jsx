@@ -19,11 +19,12 @@ export default function Register() {
   const { name, email, password } = inputs;
   const isValidEmail = !emailRegex.test(email);
   const isValidPassword = password.length < MIN_PASSWORD_LENGTH;
-  const isValidName = name.length < MIN_NAME_LENGHT || name.indexOf(' ') >= 0;
+  const isValidName = name.length < MIN_NAME_LENGHT;
   const isRegisterInfosValid = isValidEmail || isValidPassword || isValidName;
 
   async function handleRegisterRequest(newUser) {
     const newUserWithRole = { ...newUser, role: 'customer' };
+    console.log(newUserWithRole);
     try {
       const response = await fetch('http://localhost:3001/register', {
         method: 'POST',
@@ -33,13 +34,13 @@ export default function Register() {
         body: JSON.stringify(newUserWithRole),
       });
       const json = await response.json();
-
-      if (json) {
+      if (json.message) {
         /*  setUserRole(response.data.role);
-          navegate('/project'); */
+        navegate('/project'); */
+        toggleModalStatus();
       }
     } catch (error) {
-      toggleModalStatus();
+      console.log(error);
     }
   }
   function handleSubmit(e) {
@@ -54,7 +55,7 @@ export default function Register() {
       >
         Cadastro
       </h1>
-      <div className="bg-zinc-200 rounded-lg p-4 h-[18rem]">
+      <div className="bg-zinc-200 rounded-lg p-4 h-[20rem]">
         <form
           onSubmit={ handleSubmit }
           className="flex flex-col gap-4"
@@ -121,7 +122,7 @@ export default function Register() {
       </div>
       {isModalOpen && (
         <AlertModal
-          message="Erro: email ja cadastrado!"
+          message="Erro: nome ou email ja cadastrado!"
           dataTestId="common_register__element-invalid_register"
           toggleModalStatus={ toggleModalStatus }
         />

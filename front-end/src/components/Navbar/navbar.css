@@ -1,0 +1,25 @@
+.navProducts {
+
+  @apply bg-green-300 items-center text-2xl font-bold justify-center outline-none w-60 ;
+
+}
+
+.navOrders {
+
+  @apply bg-green-700 items-center text-2xl pl-14 text-white font-bold outline-none ;
+
+}
+
+.navUser {
+
+  @apply bg-purple-700 items-center text-white text-xl justify-center outline-none w-60 ;
+
+}
+
+.navLogout {
+
+  @apply bg-purple-500 flex items-center text-white font-bold text-lg ;
+
+  @apply justify-center outline-none px-10 ;
+
+}

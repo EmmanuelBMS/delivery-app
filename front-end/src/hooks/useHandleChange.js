@@ -5,6 +5,5 @@ export default function useHandleChange(initialState) {
   function handleChange(e) {
     setValue({ ...value, [e.target.name]: e.target.value });
   }
-  console.log(value);
   return [value, handleChange];
 }
