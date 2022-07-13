@@ -6,6 +6,7 @@ const errorMessages = {
   passwordLength: 'length must be at least 6 characters long',
   productNotFound: 'Product no found',
   roleInvalid: 'Invalid role',
+  tokenInvalid: 'Invalid token',
 };
 
 module.exports = errorMessages;
