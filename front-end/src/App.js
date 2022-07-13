@@ -7,11 +7,11 @@ import Register from './pages/register/Register';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/customer" >
-        <Route path="products" element={<Products />} />
+      <Route path="/" element={ <Navigate to="/login" replace /> } />
+      <Route path="/login" element={ <Login /> } />
+      <Route path="/register" element={ <Register /> } />
+      <Route path="/customer">
+        <Route path="products" element={ <Products /> } />
       </Route>
     </Routes>
   );
