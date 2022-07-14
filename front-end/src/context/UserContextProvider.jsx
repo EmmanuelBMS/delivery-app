@@ -16,7 +16,6 @@ export default function UserContextProvider({ children }) {
         body: JSON.stringify(token),
       });
       const json = await response.json();
-      console.log(json);
       if (json.message) {
         navigate('/login');
       }

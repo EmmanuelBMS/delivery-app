@@ -1,7 +1,7 @@
 .productCard {
 
   @apply w-[14rem] border-2 shadow-sm shadow-black rounded ;
-
+  
 }
 
 .productCard > img {

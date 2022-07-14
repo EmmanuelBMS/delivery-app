@@ -1,0 +1,54 @@
+import React, { createContext, useState } from 'react';
+import PropTypes from 'prop-types';
+
+export const productsContext = createContext({});
+
+export default function ProductsContextProvider({ children }) {
+  const [productsInCart, setProductsInCart] = useState([]);
+  const [productsApi, setProductsApi] = useState([]);
+  const totalItemsPrice = () => productsInCart.reduce((acc, curr) => {
+    const itemPrice = curr.price;
+    const itemCount = curr.count;
+    const priceXCount = itemPrice * itemCount;
+    const totalPrice = acc + priceXCount;
+    return totalPrice;
+  }, 0);
+
+  function getProductsToLocalStorage() {
+    const products = JSON.parse(localStorage.getItem('carrinho'));
+    if (products) {
+      setProductsInCart(products);
+    }
+  }
+  async function handleProductsRequest() {
+    try {
+      const response = await fetch('http://localhost:3001/products');
+      const json = await response.json();
+      if (json) {
+        const productWithCount = json.map((item) => ({ ...item, count: 0 }));
+        setProductsApi(productWithCount);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const valueToProvide = {
+    productsInCart,
+    setProductsInCart,
+    setProductsApi,
+    productsApi,
+    handleProductsRequest,
+    totalItemsPrice,
+    getProductsToLocalStorage,
+  };
+  return (
+    <productsContext.Provider value={ valueToProvide }>
+      {children}
+    </productsContext.Provider>
+  );
+}
+
+ProductsContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
