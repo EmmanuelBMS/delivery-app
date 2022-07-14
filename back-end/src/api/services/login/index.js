@@ -16,8 +16,6 @@ const login = async (email, password) => {
       message: errorMessages.incorrectFields,
     });
   }
-  console.log(user);
-
   delete user.password;
   delete user.id;
   const token = generate(user);
@@ -27,7 +25,6 @@ const login = async (email, password) => {
 
 const userValidate = (token) => {
   const user = verificateToken(token);
-  console.log(user);
   if (!user || user.JsonWebTokenError) {
     throw generateError({
       status: StatusCodes.UNAUTHORIZED,
