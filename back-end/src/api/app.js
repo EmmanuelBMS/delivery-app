@@ -10,6 +10,7 @@ app.use(express.json());
 
 appRouter(app);
 
+app.use(express.static('public'));
 app.use(error);
 
 module.exports = app;
