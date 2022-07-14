@@ -9,21 +9,30 @@ const { generate } = require('../../../helpers/tokenAuth');
 
 const findOne = async (email, name) => {
   const user = await User.findOne({ where: { [Op.or]: [{ name }, { email }] } });
+
   if (user) {
-    throw generateError({ status: StatusCodes.BAD_REQUEST, message: errorMessages.userExist });
+    throw generateError({
+      status: StatusCodes.CONFLICT,
+      message: errorMessages.userExist,
+    });
   }
+
   return user;
 };
 
 const create = async (newUser) => {
   await findOne(newUser.email, newUser.name);
+
   const passCrypto = crypto.createHash('md5').update(newUser.password).digest('hex');
   const objUser = newUser;
   objUser.password = passCrypto;
+
   const { dataValues: userCreated } = await User.create(objUser);
   delete userCreated.password;
+  delete userCreated.id;
   const token = generate(userCreated);
-  return { token };
+
+  return { ...userCreated, token };
 };
 
 module.exports = {
