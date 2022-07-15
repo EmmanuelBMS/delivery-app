@@ -73,7 +73,7 @@ export default function ProductCard({ item }) {
       </span>
       <img
         alt=""
-        data-testid={ `customer_products__element-card-price-${item.id}` }
+        data-testid={ `customer_products__img-card-bg-image-${item.id}` }
         src={ item.url_image }
       />
       <div className="flex flex-col bg-blue-100 py-2 items-center">
@@ -96,12 +96,13 @@ export default function ProductCard({ item }) {
             />
           </button>
 
-          <span
+          <input
+            type="number"
             data-testid={ `customer_products__input-card-quantity-${item.id}` }
             className=" bg-white text-zinc-600 px-3"
-          >
-            {itemCount}
-          </span>
+            value={ itemCount }
+          />
+          {/* {itemCount} */}
           <button
             onClick={ () => handleAddItemInCart() }
             data-testid={ `customer_products__button-card-add-item-${item.id}` }
