@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       name: DataTypes.STRING,
-      price: DataTypes.INTEGER,
+      price: DataTypes.DECIMAL(4,2),
       url_image: DataTypes.STRING,
     },
     { timestamps: false, tableName: "products", underscored: true }
