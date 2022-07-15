@@ -31,7 +31,7 @@ export default function Products() {
         <Link
           className="checkoutButton"
           data-testid="customer_products__checkout-bottom-value"
-          to="/"
+          to="/customer/checkout"
         >
           Ver Carrinho:
           <span>
