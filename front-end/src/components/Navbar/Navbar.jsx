@@ -5,6 +5,7 @@ import { userContext } from '../../context/UserContextProvider';
 
 export default function Navbar() {
   const { user, removeUserToLocalStorage } = useContext(userContext);
+
   return (
     <nav className="flex  h-20 bg-black w-full">
       <Link
@@ -26,7 +27,7 @@ export default function Navbar() {
         to="/"
         data-testid="customer_products__element-navbar-user-full-name"
       >
-        {user.name}
+        {user.name ?? ''}
       </Link>
       <Link
         onClick={ removeUserToLocalStorage }

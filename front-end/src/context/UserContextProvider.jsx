@@ -4,42 +4,39 @@ import { useNavigate } from 'react-router-dom';
 
 export const userContext = createContext({});
 export default function UserContextProvider({ children }) {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const navigate = useNavigate();
-  async function requestTokenValidate(token) {
+  async function requestTokenValidate() {
     try {
-      const response = await fetch('http://localhost:3001/login/validate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(token),
-      });
-      const json = await response.json();
-      console.log(json);
-      if (json.message) {
-        navigate('/login');
+      if (user.token) {
+        const response = await fetch('http://localhost:3001/login/validate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: user.token }),
+        });
+        const json = await response.json();
+        if (json.message) {
+          navigate('/login');
+        }
       }
     } catch (error) {
       toggleModalStatus();
     }
   }
-  async function getUserToLocalStorage() {
-    const userLocalStorage = JSON.parse(localStorage.getItem('user'));
-    const token = { token: userLocalStorage.token };
-    await requestTokenValidate(token);
-    setUser(userLocalStorage);
-  }
 
   function removeUserToLocalStorage() {
     localStorage.removeItem('user');
+    localStorage.removeItem('carrinho');
     setUser({});
   }
+
   const valueToProvide = {
     user,
     setUser,
-    getUserToLocalStorage,
     removeUserToLocalStorage,
+    requestTokenValidate,
   };
   return (
     <userContext.Provider value={ valueToProvide }>
