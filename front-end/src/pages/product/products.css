@@ -21,3 +21,12 @@
   @apply bg-blue-200 py-1 px-2 rounded relative left-2 top-1 text-xl font-extrabold ;
 
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none ;
+  margin: 0 ;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

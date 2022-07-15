@@ -6,12 +6,14 @@ export const productsContext = createContext({});
 export default function ProductsContextProvider({ children }) {
   const [productsInCart, setProductsInCart] = useState([]);
   const [productsApi, setProductsApi] = useState([]);
+
   const totalItemsPrice = () => productsInCart.reduce((acc, curr) => {
-    const itemPrice = curr.price;
+    const itemPrice = Number(curr.price);
     const itemCount = curr.count;
+    console.log('disparei');
     const priceXCount = itemPrice * itemCount;
     const totalPrice = acc + priceXCount;
-    return totalPrice;
+    return Number(totalPrice.toFixed(2));
   }, 0);
 
   function getProductsToLocalStorage() {
@@ -25,7 +27,8 @@ export default function ProductsContextProvider({ children }) {
       const response = await fetch('http://localhost:3001/products');
       const json = await response.json();
       if (json) {
-        const productWithCount = json.map((item) => ({ ...item, count: 0 }));
+        const productWithCount = json
+        .map((item) => ({...item,count: 0}));
         setProductsApi(productWithCount);
       }
     } catch (error) {
@@ -43,7 +46,7 @@ export default function ProductsContextProvider({ children }) {
     getProductsToLocalStorage,
   };
   return (
-    <productsContext.Provider value={ valueToProvide }>
+    <productsContext.Provider value={valueToProvide}>
       {children}
     </productsContext.Provider>
   );

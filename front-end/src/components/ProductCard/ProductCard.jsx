@@ -10,8 +10,8 @@ export default function ProductCard({ item }) {
     setProductsInCart,
   } = useContext(productsContext);
   const countItemInCart = productsInCart.find((it) => it.id === item.id)?.count;
-  const [itemCount, setItemCount] = useState(countItemInCart || 0);
-
+  const [itemCount, setItemCount] = useState({ count: (countItemInCart || 0) });
+  console.log(productsInCart);
   const changeDotToCommaOfPrice = (price) => price.toString().replace('.', ',');
 
   function addCartItensToLocalStorage(array) {
@@ -22,14 +22,11 @@ export default function ProductCard({ item }) {
     const productFoundInCart = cart.find((it) => it.id === item.id);
 
     if (rem) {
-      const index = cart.indexOf(ind);
       productFoundInCart.count -= 1;
-      if (productFoundInCart.count === 0) productsInCart.splice(index, 1);
       setProductsInCart(cart);
     } else {
-      const index = cart.indexOf(ind);
       productFoundInCart.count += 1;
-      productsInCart.splice(index, 1);
+      productsInCart.splice(ind, 1);
       setProductsInCart(cart);
     }
   }
@@ -37,12 +34,23 @@ export default function ProductCard({ item }) {
   function handleRemoveItemInCart() {
     const cart = [...productsInCart];
     const productFoundInCart = productsInCart.find((it) => it.id === item.id);
-
-    if (itemCount > 0) {
+    if (itemCount.count > 0) {
       const index = productsInCart.indexOf(productFoundInCart);
       removeItemByIndex(cart, index, true);
-      setItemCount((curr) => curr - 1);
+      setItemCount({ count: itemCount.count - 1 });
+      addCartItensToLocalStorage(cart);
     }
+    if (productFoundInCart.count === 0) {
+      const productsCartFiltred = cart.filter(item => item.count !== 0)
+      setProductsInCart(productsCartFiltred);
+      addCartItensToLocalStorage(productsCartFiltred)
+      if(productsCartFiltred.length===0){
+        console.log('cheguei');
+        return localStorage.removeItem('carrinho')
+        }
+    }
+   /*  if (productsInCart.length === 0) {
+    } */
   }
 
   function handleAddItemInCart() {
@@ -56,16 +64,28 @@ export default function ProductCard({ item }) {
       setProductsInCart(cart);
     }
     addCartItensToLocalStorage(cart);
-    setItemCount((curr) => curr + 1);
+    setItemCount({ count: itemCount.count + 1 });
+  }
+  function handleAddItemInCartByInput(e) {
+    const cart = [...productsInCart];
+    const { name, value } = e.target
+    setItemCount({ [name]: Number(value) })
+    const productFoundInCart = cart.find((it) => it.id === item.id);
+    const indexObjInApiArray = productsApi.indexOf(productFoundInCart);
+    const index = cart.indexOf(indexObjInApiArray);
+    productFoundInCart.count = itemCount.count;
+    productsInCart.splice(index, 1);
+    setProductsInCart(cart);
+    addCartItensToLocalStorage(cart);
   }
 
   return (
     <div
       className="productCard"
-      key={ item.id }
+      key={item.id}
     >
       <span
-        data-testid={ `customer_products__element-card-price-${item.id}` }
+        data-testid={`customer_products__element-card-price-${item.id}`}
         className="cardPrice"
       >
         R$
@@ -73,45 +93,47 @@ export default function ProductCard({ item }) {
       </span>
       <img
         alt=""
-        data-testid={ `customer_products__img-card-bg-image-${item.id}` }
-        src={ item.url_image }
+        data-testid={`customer_products__img-card-bg-image-${item.id}`}
+        src={item.url_image}
       />
       <div className="flex flex-col bg-blue-100 py-2 items-center">
         <span
-          data-testid={ `customer_products__element-card-title-${item.id}` }
+          data-testid={`customer_products__element-card-title-${item.id}`}
         >
           {item.name}
         </span>
         <div className="flex rounded border bg-[#256B52] px-2 mb-3">
           <button
-            onClick={ () => handleRemoveItemInCart() }
-            data-testid={ `customer_products__button-card-rm-item-${item.id}` }
+            onClick={() => handleRemoveItemInCart()}
+            data-testid={`customer_products__button-card-rm-item-${item.id}`}
             className="flex text-white justify-center items-center"
             type="button"
           >
             <Minus
               className="mr-2"
-              size={ 18 }
+              size={18}
 
             />
           </button>
 
           <input
+            onChange={handleAddItemInCartByInput}
+            name="count"
             type="number"
-            data-testid={ `customer_products__input-card-quantity-${item.id}` }
-            className=" bg-white text-zinc-600 px-3"
-            value={ itemCount }
+            inputMode='number'
+            data-testid={`customer_products__input-card-quantity-${item.id}`}
+            className=" bg-white text-zinc-600 w-[100%] px-6 "
+            value={itemCount.count}
           />
-          {/* {itemCount} */}
           <button
-            onClick={ () => handleAddItemInCart() }
-            data-testid={ `customer_products__button-card-add-item-${item.id}` }
+            onClick={() => handleAddItemInCart()}
+            data-testid={`customer_products__button-card-add-item-${item.id}`}
             className="flex justify-center items-center"
             type="button"
           >
             <Plus
               className="ml-2"
-              size={ 20 }
+              size={20}
             />
           </button>
         </div>
