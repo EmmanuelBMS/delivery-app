@@ -5,34 +5,24 @@ import Navbar from '../../components/Navbar/Navbar';
 import { userContext } from '../../context/UserContextProvider';
 import { productsContext } from '../../context/ProductsContextProvider';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import usePrevious from '../../hooks/usePrevius';
 
 export default function Products() {
   const {
-    productsInCart,
     productsApi,
     totalItemsPrice,
     getProductsToLocalStorage,
     handleProductsRequest,
   } = useContext(productsContext);
-  const checkPrevius = usePrevious(productsInCart);
-
+  const { requestTokenValidate } = useContext(userContext);
   useEffect(() => {
-    if (checkPrevius !== productsInCart) { totalItemsPrice(); }
-  });
-
-  const { getUserToLocalStorage } = useContext(userContext);
-
-  useEffect(() => {
-    getUserToLocalStorage();
+    requestTokenValidate();
     getProductsToLocalStorage();
     handleProductsRequest();
-  }, [getProductsToLocalStorage, getUserToLocalStorage, handleProductsRequest]);
-
+  }, []);
   return (
     <div>
       <Navbar />
-      <main className="flex py-6 gap-6 px-14  ">
+      <main className="flex py-6 items-center justify-center gap-6 flex-wrap">
         {
           productsApi.map((item) => (
             <ProductCard key={ item.id } item={ item } />

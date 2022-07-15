@@ -1,5 +1,6 @@
-import React from 'react';
-/* import { useNavigate } from 'react-router-dom'; */
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { userContext } from '../../context/UserContextProvider';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import useModal from '../../hooks/useModal';
 import useHandleChange from '../../hooks/useHandleChange';
@@ -16,7 +17,8 @@ const INITIAL_INPUTS_STATE = {
 export default function Register() {
   const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
   const [isModalOpen, toggleModalStatus] = useModal();
-  /* const navigate = useNavigate(); */
+  const { setUser } = useContext(userContext);
+  const navigate = useNavigate();
   const emailRegex = /\S+@\S+\.\S+/;
   const { name, email, password } = inputs;
   const isValidEmail = !emailRegex.test(email);
@@ -35,12 +37,13 @@ export default function Register() {
         body: JSON.stringify(newUserWithRole),
       });
       const json = await response.json();
-      console.log(json);
       if (json.message) {
         toggleModalStatus();
-      } /* else {
+      } else {
+        setUser(json);
+        localStorage.setItem('user', JSON.stringify(json));
         navigate('/customer/products');
-      } */
+      }
     } catch (error) {
       console.log(error);
     }

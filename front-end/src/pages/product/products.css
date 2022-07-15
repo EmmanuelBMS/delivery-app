@@ -1,12 +1,12 @@
 .productCard {
 
-  @apply w-[14rem] border-2 shadow-sm shadow-black rounded ;
-  
+  @apply w-[14rem] overflow-hidden h-[20.5rem] border-2 shadow-sm shadow-black rounded ;
+
 }
 
 .productCard > img {
 
-  @apply object-cover relative bottom-5 -z-10 ;
+  @apply object-cover max-h-[14rem] relative bottom-5 -z-10 ;
 
 }
 
