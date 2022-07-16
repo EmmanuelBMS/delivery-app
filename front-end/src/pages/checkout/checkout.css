@@ -1,0 +1,11 @@
+.checkoutButton {
+
+  @apply fixed bg-[#256B52] rounded-lg font-bold text-white px-4 py-2 bottom-2 right-2 ;
+
+}
+
+.cardPrice {
+
+  @apply bg-blue-200 py-1 px-2 rounded relative left-2 top-1 text-xl font-extrabold ;
+
+}
