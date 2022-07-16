@@ -3,86 +3,62 @@ import PropTypes from 'prop-types';
 import { Plus, Minus } from 'phosphor-react';
 import { productsContext } from '../../context/ProductsContextProvider';
 
+const NUMBER_TO_REMOVE_ITEMS = -1;
+const NUMBER_TO_ADD_ITEMS = 1;
 export default function ProductCard({ item }) {
-  const {
-    productsApi,
-    productsInCart,
-    setProductsInCart,
-  } = useContext(productsContext);
+  const { productsInCart, setProductsInCart } = useContext(productsContext);
   const countItemInCart = productsInCart.find((it) => it.id === item.id)?.count;
   const [itemCount, setItemCount] = useState(countItemInCart || 0);
   const changeDotToCommaOfPrice = (price) => price.toString().replace('.', ',');
+  const copyCartState = [...productsInCart];
 
-  function addCartItensToLocalStorage(array) {
+  function addCartitemsToLocalStorage(array) {
     localStorage.setItem('carrinho', JSON.stringify(array));
   }
 
   function saveNewCart(cart) {
     setProductsInCart(cart);
-    addCartItensToLocalStorage(cart);
+    addCartitemsToLocalStorage(cart);
   }
-
-  function handleCountItens(count, isInput = false) {
-    /* função 2 */
-    if (count === '') {
-      const stateStringToArray = Array(String(count));
-      stateStringToArray.pop();
-      if (!stateStringToArray.length) {
-        return setItemCount(0);
-      }
-      const joinCountNumbers= stateStringToArray.join('')
-      setItemCount(Number(joinCountNumbers))
-      return
-    }
-    const countToNumber = Number(count);
-    const cart = [...productsInCart];
-    const productFoundInCart = cart.find((it) => it.id === item.id);
-    const newCount = Number(itemCount) + countToNumber;
-    const IsNewCountValid = newCount >= 0;
-    /* adicionar logica do input com early return
-
-  */
-    if (!IsNewCountValid) return setItemCount(0);
-/* função3 */
-    if (isInput) {
-      console.log('number',countToNumber,'state',itemCount,'count',count);
-
-      if (countToNumber <= 0) {
+  function countInputValidate(productObj, count) {
+    if (count <= 0) {
       setItemCount(0);
-        productFoundInCart.count = 0;
-        const productsCartFiltred = cart.filter((item) => item.count !== 0);
-       /* return */ saveNewCart(productsCartFiltred);
-       return;
-      }
-      
-      setItemCount(countToNumber);
-      /* é input e nao existe */
-      if (!productFoundInCart) {
-        cart.push({ ...item, count: countToNumber });
-      }
-      /* é input e existe */
-      else {
-        productFoundInCart.count = countToNumber;
-      }
-      saveNewCart(cart);
+      productObj.count = 0;
+      const productsCartFiltred = copyCartState.filter((product) => product.count !== 0);
+      saveNewCart(productsCartFiltred);
       return;
     }
-
-    /* não input e nao exist */
-    if (!productFoundInCart) {
-      cart.push({ ...item, count: 1 });
+    setItemCount(count);
+    if (!productObj) {
+      copyCartState.push({ ...item, count });
+    } else {
+      productObj.count = count;
     }
-    /* nao input e existe */
+    saveNewCart(copyCartState);
+  }
+
+  function handleCountitems(count, isInput = false) {
+    const countToNumber = Number(count);
+    const productFoundInCart = copyCartState.find((it) => it.id === item.id);
+    const newCount = Number(itemCount) + countToNumber;
+    const IsNewCountValid = newCount >= 0;
+    if (!IsNewCountValid) return setItemCount(0);
+    if (isInput) {
+      return countInputValidate(productFoundInCart, countToNumber);
+    }
+    if (!productFoundInCart) {
+      copyCartState.push({ ...item, count: 1 });
+    }
     if (productFoundInCart) {
       if (!newCount) {
-        const indexObjInCart = cart.indexOf(productFoundInCart);
+        const indexObjInCart = copyCartState.indexOf(productFoundInCart);
         productsInCart.splice(indexObjInCart, 1);
       } else {
         productFoundInCart.count = newCount;
       }
     }
     setItemCount(newCount);
-    saveNewCart(cart);
+    saveNewCart(copyCartState);
   }
 
   return (
@@ -110,34 +86,33 @@ export default function ProductCard({ item }) {
         </span>
         <div className="flex rounded border bg-[#256B52] px-2 mb-3">
           <button
-            onClick={ () => handleCountItens(-1) }
+            onClick={ () => handleCountitems(NUMBER_TO_REMOVE_ITEMS) }
             data-testid={ `customer_products__button-card-rm-item-${item.id}` }
-            className="flex text-white justify-center items-center"
+            className="flex justify-center items-center"
             type="button"
           >
             <Minus
-              className="mr-2"
+              className="mr-2 text-white"
               size={ 18 }
 
             />
           </button>
 
           <input
-            onChange={ (e) => handleCountItens(e.target.value, true) }
-            type="number"
-            inputMode="number"
+            onChange={ (e) => handleCountitems(e.target.value, true) }
+            type="text"
             data-testid={ `customer_products__input-card-quantity-${item.id}` }
-            className=" bg-white text-zinc-600 w-[100%] px-6 "
-            value={ Number(itemCount) }
+            className=" bg-white outline-none text-zinc-600 w-[2rem] px-2 "
+            value={ itemCount }
           />
           <button
-            onClick={ () => handleCountItens(1) }
+            onClick={ () => handleCountitems(NUMBER_TO_ADD_ITEMS) }
             data-testid={ `customer_products__button-card-add-item-${item.id}` }
             className="flex justify-center items-center"
             type="button"
           >
             <Plus
-              className="ml-2"
+              className="ml-2 text-white"
               size={ 20 }
             />
           </button>

@@ -30,12 +30,10 @@ export default function Products() {
         }
         <Link
           className="checkoutButton"
-          data-testid="customer_products__checkout-bottom-value"
           to="/customer/checkout"
         >
-          Ver Carrinho:
-          <span>
-            R$
+          Ver Carrinho:R$
+          <span data-testid="customer_products__checkout-bottom-value">
             {totalItemsPrice() || 0}
           </span>
         </Link>
