@@ -10,7 +10,6 @@ export default function ProductsContextProvider({ children }) {
   const totalItemsPrice = () => productsInCart.reduce((acc, curr) => {
     const itemPrice = Number(curr.price);
     const itemCount = curr.count;
-    console.log('disparei');
     const priceXCount = itemPrice * itemCount;
     const totalPrice = acc + priceXCount;
     return Number(totalPrice.toFixed(2));
@@ -28,7 +27,7 @@ export default function ProductsContextProvider({ children }) {
       const json = await response.json();
       if (json) {
         const productWithCount = json
-        .map((item) => ({...item,count: 0}));
+          .map((item) => ({ ...item, count: 0 }));
         setProductsApi(productWithCount);
       }
     } catch (error) {
@@ -46,7 +45,7 @@ export default function ProductsContextProvider({ children }) {
     getProductsToLocalStorage,
   };
   return (
-    <productsContext.Provider value={valueToProvide}>
+    <productsContext.Provider value={ valueToProvide }>
       {children}
     </productsContext.Provider>
   );
