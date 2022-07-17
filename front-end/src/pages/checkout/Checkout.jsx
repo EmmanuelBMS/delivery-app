@@ -9,11 +9,15 @@ export default function Checkout() {
     <div>
       <Navbar />
       <main className="main-content">
-        <span className="text-xl font-medium">Finalizar Pedido</span>
+        <span className="text-xl font-medium mx-auto">Finalizar Pedido</span>
         <div className="main-content-table">
           <TableCart />
         </div>
-        <span className="text-xl font-medium">Detalhes e Endereço para Entrega</span>
+        <span
+          className="text-xl font-medium mx-auto"
+        >
+          Detalhes e Endereço para Entrega
+        </span>
         <div className="main-content-form">
           <CheckoutForm />
         </div>

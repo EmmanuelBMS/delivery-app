@@ -16,7 +16,7 @@ export default function TableCart() {
   };
 
   return (
-    <table className="table-fixed borderd-collapse border-spacing-18">
+    <table className="table-auto borderd-collapse border-spacing-18">
       <thead>
         <tr>
           <th className="border">Item</th>
@@ -49,24 +49,24 @@ export default function TableCart() {
               data-testid={
                 `customer_checkout__element-order-table-unit-price-${item.id}`
               }
-              className="bg-green-700"
+              className="bg-green-700 text-white"
             >
-              { changeDotToCommaOfPrice((+item.price).toFixed(2)) }
+              { `R$${changeDotToCommaOfPrice((+item.price).toFixed(2))}` }
             </td>
             {/* prices transformados em numbers com um + pq vinha como string */}
             <td
               data-testid={
                 `customer_checkout__element-order-table-sub-total-${item.id}`
               }
-              className="bg-purple-700"
+              className="bg-purple-700 text-white"
             >
-              { changeDotToCommaOfPrice((+item.count * item.price).toFixed(2)) }
+              { `R$ ${changeDotToCommaOfPrice((+item.count * item.price).toFixed(2))}` }
             </td>
             <button
               type="button"
               onClick={ () => removeItems(item.id) }
               data-testid={ `customer_checkout__element-order-table-remove-${item.id}` }
-              className="bg-purple-500 rounded-r"
+              className="bg-purple-500 rounded-r text-white p-2"
             >
               REMOVER
             </button>

@@ -4,10 +4,10 @@
 
 .main-content-table {
   @apply border-2 shadow-sm shadow-black rounded ;
-  @apply p-4 px-8 mx-auto text-justify ;
+  @apply p-4 px-8 mx-auto text-justify w-2/3 ;
 }
 
 .main-content-form {
   @apply border-2 shadow-sm shadow-black rounded mx-auto ;
-  @apply p-4 px-8 mx-auto text-justify ;
+  @apply p-4 px-8 mx-auto text-justify w-2/3;
 }
