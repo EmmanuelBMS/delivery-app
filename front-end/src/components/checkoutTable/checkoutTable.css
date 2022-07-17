@@ -6,12 +6,12 @@
 
 .headerTable, {
 
-  @apply  bg-blue-500 flex px-4 justify-between ;
+  @apply bg-blue-500 flex px-4 justify-between ;
 
 }
 
 .bodyTable {
 
-  @apply flex px-5 justify-between
+  @apply flex px-5 justify-between ;
 
 }
