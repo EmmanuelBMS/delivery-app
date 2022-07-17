@@ -33,7 +33,7 @@ function formatDate(date) {
 }
 
 // 👇️ 24/10/2021 (mm/dd/yyyy)
-console.log(formatDate(new Date(Date.now())));
+// console.log(formatDate(new Date(Date.now())));
 
 export default function Order() {
   return (
