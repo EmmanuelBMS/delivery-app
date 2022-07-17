@@ -36,7 +36,7 @@ export default function Products() {
           Ver Carrinho:
           <span>
             R$
-            {totalItemsPrice() || 0}
+            {totalItemsPrice().toFixed(2) || 0}
           </span>
         </Link>
       </main>

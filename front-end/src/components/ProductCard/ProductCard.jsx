@@ -99,7 +99,7 @@ export default function ProductCard({ item }) {
           <input
             type="number"
             data-testid={ `customer_products__input-card-quantity-${item.id}` }
-            className=" bg-white text-zinc-600 px-3"
+            className=" bg-white text-zinc-600 w-7"
             value={ itemCount }
           />
           {/* {itemCount} */}
