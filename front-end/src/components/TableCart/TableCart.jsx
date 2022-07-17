@@ -16,10 +16,10 @@ export default function TableCart() {
   };
 
   return (
-    <table>
+    <table className="table-fixed borderd-collapse border-spacing-18">
       <thead>
         <tr>
-          <th>Item</th>
+          <th className="border">Item</th>
           <th>Descrição</th>
           <th>Quantidade</th>
           <th>Valor Unitário</th>
@@ -30,8 +30,14 @@ export default function TableCart() {
       <tbody>
         {productsInCart.map((item) => (
           <tr key={ item.id }>
-            <td>{ item.id }</td>
-            <td data-testid={ `customer_checkout__element-order-table-name-${item.id}` }>
+            <td
+              className="bg-green-300 rounded-l"
+            >
+              { item.id }
+            </td>
+            <td
+              data-testid={ `customer_checkout__element-order-table-name-${item.id}` }
+            >
               { item.name }
             </td>
             <td
@@ -43,6 +49,7 @@ export default function TableCart() {
               data-testid={
                 `customer_checkout__element-order-table-unit-price-${item.id}`
               }
+              className="bg-green-700"
             >
               { changeDotToCommaOfPrice((+item.price).toFixed(2)) }
             </td>
@@ -51,6 +58,7 @@ export default function TableCart() {
               data-testid={
                 `customer_checkout__element-order-table-sub-total-${item.id}`
               }
+              className="bg-purple-700"
             >
               { changeDotToCommaOfPrice((+item.count * item.price).toFixed(2)) }
             </td>
@@ -58,6 +66,7 @@ export default function TableCart() {
               type="button"
               onClick={ () => removeItems(item.id) }
               data-testid={ `customer_checkout__element-order-table-remove-${item.id}` }
+              className="bg-purple-500 rounded-r"
             >
               REMOVER
             </button>

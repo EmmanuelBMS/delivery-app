@@ -1,0 +1,13 @@
+.main-content {
+  @apply flex flex-col items-start mx-auto justify-center;
+}
+
+.main-content-table {
+  @apply border-2 shadow-sm shadow-black rounded ;
+  @apply p-4 px-8 mx-auto text-justify ;
+}
+
+.main-content-form {
+  @apply border-2 shadow-sm shadow-black rounded mx-auto ;
+  @apply p-4 px-8 mx-auto text-justify ;
+}
