@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 export const productsContext = createContext({});
@@ -6,12 +6,13 @@ export const productsContext = createContext({});
 export default function ProductsContextProvider({ children }) {
   const [productsInCart, setProductsInCart] = useState([]);
   const [productsApi, setProductsApi] = useState([]);
+
   const totalItemsPrice = () => productsInCart.reduce((acc, curr) => {
-    const itemPrice = curr.price;
+    const itemPrice = Number(curr.price);
     const itemCount = curr.count;
     const priceXCount = itemPrice * itemCount;
     const totalPrice = acc + priceXCount;
-    return totalPrice;
+    return Number(totalPrice.toFixed(2));
   }, 0);
 
   function getProductsToLocalStorage() {
@@ -25,15 +26,16 @@ export default function ProductsContextProvider({ children }) {
       const response = await fetch('http://localhost:3001/products');
       const json = await response.json();
       if (json) {
-        const productWithCount = json.map((item) => ({ ...item, count: 0 }));
+        const productWithCount = json
+          .map((item) => ({ ...item, count: 0 }));
         setProductsApi(productWithCount);
       }
     } catch (error) {
       console.log(error);
     }
   }
-
-  const valueToProvide = {
+  const changeDotToCommaOfPrice = (price) => price.toString().replace('.', ',');
+  const valueToProvide = useMemo(() => ({
     productsInCart,
     setProductsInCart,
     setProductsApi,
@@ -41,7 +43,15 @@ export default function ProductsContextProvider({ children }) {
     handleProductsRequest,
     totalItemsPrice,
     getProductsToLocalStorage,
-  };
+    changeDotToCommaOfPrice,
+  }), [productsInCart,
+    setProductsInCart,
+    setProductsApi,
+    productsApi,
+    handleProductsRequest,
+    totalItemsPrice,
+    getProductsToLocalStorage,
+    changeDotToCommaOfPrice]);
   return (
     <productsContext.Provider value={ valueToProvide }>
       {children}

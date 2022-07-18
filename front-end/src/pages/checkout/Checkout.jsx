@@ -1,7 +1,7 @@
 import React from 'react';
 import './checkout.css';
-import Navbar from '../../components/Navbar/Navbar';
 import TableCart from '../../components/TableCart/TableCart';
+import Navbar from '../../components/Navbar/Navbar';
 import CheckoutForm from '../../components/CheckoutForm/CheckoutForm';
 
 export default function Checkout() {

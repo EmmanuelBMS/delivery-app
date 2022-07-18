@@ -4,6 +4,7 @@ import Login from './pages/login/Login';
 import Products from './pages/product/Products';
 import Register from './pages/register/Register';
 import Checkout from './pages/checkout/Checkout';
+// import OrderDetail from './pages/orderDetail/OrderDetail';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/" element={ <Navigate to="/login" replace /> } />
       <Route path="/login" element={ <Login /> } />
       <Route path="/register" element={ <Register /> } />
+      {/* <Route path="/customer/orders/:orderId" element={ <OrderDetail /> } /> */}
       <Route path="/customer">
         <Route path="checkout" element={ <Checkout /> } />
         <Route path="products" element={ <Products /> } />

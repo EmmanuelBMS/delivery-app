@@ -28,44 +28,47 @@ export default function TableCart() {
         </tr>
       </thead>
       <tbody>
-        {productsInCart.map((item) => (
+        {productsInCart.map((item, index) => (
           <tr key={ item.id }>
             <td
               className="bg-green-300 rounded-l"
+              data-testid={
+                `customer_checkout__element-order-table-item-number-${index}`
+              }
             >
-              { item.id }
+              {index + 1}
             </td>
             <td
-              data-testid={ `customer_checkout__element-order-table-name-${item.id}` }
+              data-testid={ `customer_checkout__element-order-table-name-${index}` }
             >
-              { item.name }
+              {item.name}
             </td>
             <td
-              data-testid={ `customer_checkout__element-order-table-quantity-${item.id}` }
+              data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
             >
-              { item.count }
+              {item.count}
             </td>
             <td
               data-testid={
-                `customer_checkout__element-order-table-unit-price-${item.id}`
+                `customer_checkout__element-order-table-unit-price-${index}`
               }
               className="bg-green-700 text-white"
             >
-              { `R$${changeDotToCommaOfPrice((+item.price).toFixed(2))}` }
+              {`R$${changeDotToCommaOfPrice((+item.price).toFixed(2))}`}
             </td>
             {/* prices transformados em numbers com um + pq vinha como string */}
             <td
               data-testid={
-                `customer_checkout__element-order-table-sub-total-${item.id}`
+                `customer_checkout__element-order-table-sub-total-${index}`
               }
               className="bg-purple-700 text-white"
             >
-              { `R$ ${changeDotToCommaOfPrice((+item.count * item.price).toFixed(2))}` }
+              {`R$ ${changeDotToCommaOfPrice((+item.count * item.price).toFixed(2))}`}
             </td>
             <button
               type="button"
               onClick={ () => removeItems(item.id) }
-              data-testid={ `customer_checkout__element-order-table-remove-${item.id}` }
+              data-testid={ `customer_checkout__element-order-table-remove-${index}` }
               className="bg-purple-500 rounded-r text-white p-2"
             >
               REMOVER

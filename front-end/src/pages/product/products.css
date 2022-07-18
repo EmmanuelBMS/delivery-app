@@ -14,6 +14,8 @@
 
   @apply fixed bg-[#256B52] rounded-lg font-bold text-white px-4 py-2 bottom-2 right-2 ;
 
+  @apply disabled:opacity-50 ;
+
 }
 
 .cardPrice {
