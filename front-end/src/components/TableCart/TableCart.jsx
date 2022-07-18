@@ -81,7 +81,7 @@ export default function TableCart() {
           <td
             data-testid="customer_checkout__element-order-total-price"
           >
-            {`Total: R$ ${changeDotToCommaOfPrice(totalItemsPrice().toFixed(2)) || 0}`}
+            {`Total: R$ ${changeDotToCommaOfPrice(totalItemsPrice()) || 0}`}
           </td>
         </tr>
       </tfoot>
