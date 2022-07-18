@@ -35,7 +35,7 @@ export default function ProductsContextProvider({ children }) {
     }
   }
 
-  const valueToProvide = {
+  const valueToProvide = useMemo(() => ({
     productsInCart,
     setProductsInCart,
     setProductsApi,
@@ -43,7 +43,7 @@ export default function ProductsContextProvider({ children }) {
     handleProductsRequest,
     totalItemsPrice,
     getProductsToLocalStorage,
-  };
+  }), []);
   return (
     <productsContext.Provider value={ valueToProvide }>
       {children}

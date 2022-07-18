@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,12 +32,13 @@ export default function UserContextProvider({ children }) {
     setUser({});
   }
 
-  const valueToProvide = {
+  const valueToProvide = useMemo(() => ({
     user,
     setUser,
     removeUserToLocalStorage,
     requestTokenValidate,
-  };
+  }), []);
+
   return (
     <userContext.Provider value={ valueToProvide }>
       {children}
