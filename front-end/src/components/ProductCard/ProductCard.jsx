@@ -6,10 +6,12 @@ import { productsContext } from '../../context/ProductsContextProvider';
 const NUMBER_TO_REMOVE_ITEMS = -1;
 const NUMBER_TO_ADD_ITEMS = 1;
 export default function ProductCard({ item }) {
-  const { productsInCart, setProductsInCart } = useContext(productsContext);
+  const {
+    productsInCart,
+    setProductsInCart,
+    changeDotToCommaOfPrice } = useContext(productsContext);
   const countItemInCart = productsInCart.find((it) => it.id === item.id)?.count;
   const [itemCount, setItemCount] = useState(countItemInCart || 0);
-  const changeDotToCommaOfPrice = (price) => price.toString().replace('.', ',');
   const copyCartState = [...productsInCart];
 
   function addCartitemsToLocalStorage(array) {
@@ -22,6 +24,7 @@ export default function ProductCard({ item }) {
   }
   function countInputValidate(productObj, count) {
     if (count <= 0) {
+      console.log('entrei');
       setItemCount(0);
       productObj.count = 0;
       const productsCartFiltred = copyCartState.filter((product) => product.count !== 0);
@@ -51,8 +54,11 @@ export default function ProductCard({ item }) {
     }
     if (productFoundInCart) {
       if (!newCount) {
+        console.log(copyCartState, 'SEM splice');
+
         const indexObjInCart = copyCartState.indexOf(productFoundInCart);
-        productsInCart.splice(indexObjInCart, 1);
+        copyCartState.splice(indexObjInCart, 1);
+        console.log(copyCartState, 'COM splice');
       } else {
         productFoundInCart.count = newCount;
       }

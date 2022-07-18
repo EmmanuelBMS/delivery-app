@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 export const productsContext = createContext({});
@@ -34,7 +34,7 @@ export default function ProductsContextProvider({ children }) {
       console.log(error);
     }
   }
-
+  const changeDotToCommaOfPrice = (price) => price.toString().replace('.', ',');
   const valueToProvide = useMemo(() => ({
     productsInCart,
     setProductsInCart,
@@ -43,7 +43,15 @@ export default function ProductsContextProvider({ children }) {
     handleProductsRequest,
     totalItemsPrice,
     getProductsToLocalStorage,
-  }), []);
+    changeDotToCommaOfPrice,
+  }), [productsInCart,
+    setProductsInCart,
+    setProductsApi,
+    productsApi,
+    handleProductsRequest,
+    totalItemsPrice,
+    getProductsToLocalStorage,
+    changeDotToCommaOfPrice]);
   return (
     <productsContext.Provider value={ valueToProvide }>
       {children}

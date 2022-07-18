@@ -37,7 +37,10 @@ export default function UserContextProvider({ children }) {
     setUser,
     removeUserToLocalStorage,
     requestTokenValidate,
-  }), []);
+  }), [user,
+    setUser,
+    removeUserToLocalStorage,
+    requestTokenValidate]);
 
   return (
     <userContext.Provider value={ valueToProvide }>
