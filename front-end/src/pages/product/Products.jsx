@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import './products.css';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import { userContext } from '../../context/UserContextProvider';
 import { productsContext } from '../../context/ProductsContextProvider';
@@ -8,17 +8,23 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 
 export default function Products() {
   const {
+    productsInCart,
     productsApi,
     totalItemsPrice,
     getProductsToLocalStorage,
     handleProductsRequest,
+    changeDotToCommaOfPrice,
   } = useContext(productsContext);
   const { requestTokenValidate } = useContext(userContext);
+  const navigate = useNavigate();
   useEffect(() => {
     requestTokenValidate();
     getProductsToLocalStorage();
     handleProductsRequest();
   }, []);
+  function redirectToCheckoutPage() {
+    navigate('/customer/checkout');
+  }
   return (
     <div>
       <Navbar />
@@ -28,17 +34,20 @@ export default function Products() {
             <ProductCard key={ item.id } item={ item } />
           ))
         }
-        <Link
+        <button
+          onClick={ redirectToCheckoutPage }
+          disabled={ !productsInCart.length }
+          data-testid="customer_products__button-cart"
           className="checkoutButton"
-          data-testid="customer_products__checkout-bottom-value"
-          to="/customer/checkout"
+          type="button"
         >
-          Ver Carrinho:
-          <span>
-            R$
-            {totalItemsPrice() || 0}
+          Ver carrinho R$
+          {' '}
+          <span data-testid="customer_products__checkout-bottom-value">
+            {changeDotToCommaOfPrice(totalItemsPrice() || 0)}
+
           </span>
-        </Link>
+        </button>
       </main>
     </div>
   );

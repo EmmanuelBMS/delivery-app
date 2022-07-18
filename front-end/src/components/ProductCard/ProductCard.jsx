@@ -3,60 +3,68 @@ import PropTypes from 'prop-types';
 import { Plus, Minus } from 'phosphor-react';
 import { productsContext } from '../../context/ProductsContextProvider';
 
+const NUMBER_TO_REMOVE_ITEMS = -1;
+const NUMBER_TO_ADD_ITEMS = 1;
 export default function ProductCard({ item }) {
   const {
-    productsApi,
     productsInCart,
     setProductsInCart,
-  } = useContext(productsContext);
+    changeDotToCommaOfPrice } = useContext(productsContext);
   const countItemInCart = productsInCart.find((it) => it.id === item.id)?.count;
   const [itemCount, setItemCount] = useState(countItemInCart || 0);
+  const copyCartState = [...productsInCart];
 
-  const changeDotToCommaOfPrice = (price) => price.toString().replace('.', ',');
-
-  function addCartItensToLocalStorage(array) {
+  function addCartitemsToLocalStorage(array) {
     localStorage.setItem('carrinho', JSON.stringify(array));
   }
 
-  function removeItemByIndex(cart, ind, rem = false) {
-    const productFoundInCart = cart.find((it) => it.id === item.id);
-
-    if (rem) {
-      const index = cart.indexOf(ind);
-      productFoundInCart.count -= 1;
-      if (productFoundInCart.count === 0) productsInCart.splice(index, 1);
-      setProductsInCart(cart);
+  function saveNewCart(cart) {
+    setProductsInCart(cart);
+    addCartitemsToLocalStorage(cart);
+  }
+  function countInputValidate(productObj, count) {
+    if (count <= 0) {
+      console.log('entrei');
+      setItemCount(0);
+      productObj.count = 0;
+      const productsCartFiltred = copyCartState.filter((product) => product.count !== 0);
+      saveNewCart(productsCartFiltred);
+      return;
+    }
+    setItemCount(count);
+    if (!productObj) {
+      copyCartState.push({ ...item, count });
     } else {
-      const index = cart.indexOf(ind);
-      productFoundInCart.count += 1;
-      productsInCart.splice(index, 1);
-      setProductsInCart(cart);
+      productObj.count = count;
     }
+    saveNewCart(copyCartState);
   }
 
-  function handleRemoveItemInCart() {
-    const cart = [...productsInCart];
-    const productFoundInCart = productsInCart.find((it) => it.id === item.id);
-
-    if (itemCount > 0) {
-      const index = productsInCart.indexOf(productFoundInCart);
-      removeItemByIndex(cart, index, true);
-      setItemCount((curr) => curr - 1);
+  function handleCountitems(count, isInput = false) {
+    const countToNumber = Number(count);
+    const productFoundInCart = copyCartState.find((it) => it.id === item.id);
+    const newCount = Number(itemCount) + countToNumber;
+    const IsNewCountValid = newCount >= 0;
+    if (!IsNewCountValid) return setItemCount(0);
+    if (isInput) {
+      return countInputValidate(productFoundInCart, countToNumber);
     }
-  }
-
-  function handleAddItemInCart() {
-    const cart = [...productsInCart];
-    const productFoundInCart = cart.find((it) => it.id === item.id);
+    if (!productFoundInCart) {
+      copyCartState.push({ ...item, count: 1 });
+    }
     if (productFoundInCart) {
-      const index = productsApi.indexOf(productFoundInCart);
-      removeItemByIndex(cart, index);
-    } else {
-      cart.push({ ...item, count: 1 });
-      setProductsInCart(cart);
+      if (!newCount) {
+        console.log(copyCartState, 'SEM splice');
+
+        const indexObjInCart = copyCartState.indexOf(productFoundInCart);
+        copyCartState.splice(indexObjInCart, 1);
+        console.log(copyCartState, 'COM splice');
+      } else {
+        productFoundInCart.count = newCount;
+      }
     }
-    addCartItensToLocalStorage(cart);
-    setItemCount((curr) => curr + 1);
+    setItemCount(newCount);
+    saveNewCart(copyCartState);
   }
 
   return (
@@ -84,33 +92,33 @@ export default function ProductCard({ item }) {
         </span>
         <div className="flex rounded border bg-[#256B52] px-2 mb-3">
           <button
-            onClick={ () => handleRemoveItemInCart() }
+            onClick={ () => handleCountitems(NUMBER_TO_REMOVE_ITEMS) }
             data-testid={ `customer_products__button-card-rm-item-${item.id}` }
-            className="flex text-white justify-center items-center"
+            className="flex justify-center items-center"
             type="button"
           >
             <Minus
-              className="mr-2"
+              className="mr-2 text-white"
               size={ 18 }
 
             />
           </button>
 
           <input
-            type="number"
+            onChange={ (e) => handleCountitems(e.target.value, true) }
+            type="text"
             data-testid={ `customer_products__input-card-quantity-${item.id}` }
-            className=" bg-white text-zinc-600 px-3"
+            className=" bg-white outline-none text-zinc-600 w-[2rem] px-2 "
             value={ itemCount }
           />
-          {/* {itemCount} */}
           <button
-            onClick={ () => handleAddItemInCart() }
+            onClick={ () => handleCountitems(NUMBER_TO_ADD_ITEMS) }
             data-testid={ `customer_products__button-card-add-item-${item.id}` }
             className="flex justify-center items-center"
             type="button"
           >
             <Plus
-              className="ml-2"
+              className="ml-2 text-white"
               size={ 20 }
             />
           </button>
