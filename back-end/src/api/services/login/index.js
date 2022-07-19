@@ -17,7 +17,6 @@ const login = async (email, password) => {
     });
   }
   delete user.password;
-  delete user.id;
   const token = generate(user);
 
   return { ...user, token };

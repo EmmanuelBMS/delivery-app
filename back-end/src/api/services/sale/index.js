@@ -14,6 +14,7 @@ const create = async (newSale) => {
     });
 
     await Promise.all(saleProducts);
+    return dataValues.id
   });
 };
 

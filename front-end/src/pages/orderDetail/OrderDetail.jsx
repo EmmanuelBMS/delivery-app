@@ -26,14 +26,15 @@ export default function OrderDetail() {
   const { orderId } = useParams();
   const requestApi = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/customers/orders/${orderId}`, {
+      const response = await fetch('http://localhost:3001/sales/1', {
         method: 'GET',
       });
       const json = await response.json();
+      console.log(Array(json));
       if (json.message) {
         console.log(json.message);
       }
-      setOrder(json);
+      setOrder(Array(json));
     } catch (error) {
       console.log(error);
     }

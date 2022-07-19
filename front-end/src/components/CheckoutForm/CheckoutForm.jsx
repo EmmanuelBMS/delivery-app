@@ -6,51 +6,65 @@ import { userContext } from '../../context/UserContextProvider';
 
 const INITIAL_INPUTS_STATE = {
   sellerId: 2,
-  address: '',
-  addressNumber: '',
+  deliveryAddress: '',
+  deliveryNumber: 123,
 };
 
 export default function CheckoutForm() {
   const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
   const [orderId, setOrderId] = useState({});
   const navegate = useNavigate();
-  const { sellerId, address, addressNumber } = inputs;
+  const { sellerId, deliveryAddress, deliveryNumber } = inputs;
   const {
+    productsInCart,
     totalItemsPrice,
   } = useContext(productsContext);
 
   const { user } = useContext(userContext);
+  const cartArray = productsInCart
+    .map((prod) => ({ quantity: prod.count, productId: prod.id }));
+  const totalPrice = totalItemsPrice();
+  const newSale = {
+    sale: {
+      userId: user.id,
+      totalPrice,
+      sellerId,
+      deliveryAddress,
+      deliveryNumber,
+      status: 'Pendente',
+    },
+    product: cartArray,
+  };
 
-  const submitSell = async (e) => {
-    e.preventDefault();
+  async function submitSell() {
     try {
-      const totalPrice = totalItemsPrice();
       const response = await fetch('http://localhost:3001/sales', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: {
-          userId: user.id,
-          totalPrice,
-          ...inputs,
-          status: 'Pendente',
-        },
+        body: newSale,
       });
+      console.log(newSale);
       const json = await response.json();
-      if (json.message) {
-        console.log(json.message);
-      }
+      // if (json.message) {
+      //   console.log(json.message);
+      // }
+      console.log(json);
       const { id } = orderId;
       setOrderId(id);
       navegate(`/customer/orders/${id}`);
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    submitSell();
+  }
   return (
-    <form onSubmit={ submitSell }>
+    <form onSubmit={ handleSubmit }>
       <label htmlFor="seller">
         P. Vendedora Responsável
         <select
@@ -69,8 +83,8 @@ export default function CheckoutForm() {
           data-testid="customer_checkout__input-address"
           placeholder="Travessa Terceira da Castanheira"
           onChange={ handleChange }
-          name="address"
-          value={ address }
+          name="deliveryAddress"
+          value={ deliveryAddress }
         />
       </label>
       <label htmlFor="number">
@@ -80,8 +94,8 @@ export default function CheckoutForm() {
           data-testid="customer_checkout__input-addressNumber"
           placeholder="198"
           onChange={ handleChange }
-          name="addressNumber"
-          value={ addressNumber }
+          name="deliveryNumber"
+          value={ deliveryNumber.toString() }
         />
       </label>
       <button
