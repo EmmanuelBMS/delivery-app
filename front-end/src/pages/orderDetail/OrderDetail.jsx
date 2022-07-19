@@ -1,6 +1,5 @@
 import React from 'react';
 /* import { useParams } from 'react-router-dom'; */
-import CheckoutTable from '../../components/checkoutTable/CheckoutTable';
 import Navbar from '../../components/Navbar/Navbar';
 
 const DATA_TESTID_ID = 'customer_order_details__element-order-details-label-order-id';
@@ -51,7 +50,6 @@ export default function OrderDetail() {
             </div>
           ))}
         </div>
-        <CheckoutTable />
       </main>
     </div>
   );
