@@ -10,17 +10,17 @@ export default function Navbar() {
     <nav className="flex  h-20 bg-black w-full">
       <Link
         className="navProducts flex"
-        to="/"
+        to="/customer/products"
         data-testid="customer_products__element-navbar-link-products"
       >
         produtos
       </Link>
       <Link
         className="navOrders flex flex-1"
-        to="/"
+        to="/customer/orders"
         data-testid="customer_products__element-navbar-link-orders"
       >
-        meus produtos
+        meus pedidos
       </Link>
       <Link
         className="navUser flex"
