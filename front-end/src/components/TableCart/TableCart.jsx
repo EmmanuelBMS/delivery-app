@@ -13,6 +13,7 @@ export default function TableCart() {
   const removeItems = (id) => {
     const removedProduct = productsInCart.filter((p) => p.id !== id);
     setProductsInCart(removedProduct);
+    localStorage.setItem('carrinho', JSON.stringify(removedProduct));
   };
 
   return (
@@ -78,10 +79,11 @@ export default function TableCart() {
       </tbody>
       <tfoot>
         <tr>
+          Total: R$
           <td
             data-testid="customer_checkout__element-order-total-price"
           >
-            {`Total: R$ ${changeDotToCommaOfPrice(totalItemsPrice()) || 0}`}
+            {` ${changeDotToCommaOfPrice(totalItemsPrice().toFixed(2)) || 0}`}
           </td>
         </tr>
       </tfoot>
