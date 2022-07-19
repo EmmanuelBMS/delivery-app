@@ -4,7 +4,18 @@ const saleService = require('../../services/sale');
 const findById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await saleService.findById(id);
+    const result = await saleService.findByIdSale(id);
+
+    return res.status(StatusCodes.OK).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const findAllByIdSales = async (req, res, next) => {
+  try {
+    const { role, id } = req.body;
+    const result = await saleService.findAllByIdSales(id, role);
 
     return res.status(StatusCodes.OK).json(result);
   } catch (error) {
@@ -14,10 +25,9 @@ const findById = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-  const { userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, status } = req.body;
-   await saleService.create({
-     userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, status,
-    });
+  const { sale, product } = req.body;
+    await saleService.create({ sale, product });
+
     return res.status(StatusCodes.CREATED).end();
   } catch (error) {
     next(error);
@@ -27,4 +37,5 @@ const create = async (req, res, next) => {
 module.exports = {
   findById,
   create,
+  findAllByIdSales,
 };
