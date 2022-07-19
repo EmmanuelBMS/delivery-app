@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useHandleChange from '../../hooks/useHandleChange';
 import { productsContext } from '../../context/ProductsContextProvider';
@@ -12,7 +12,6 @@ const INITIAL_INPUTS_STATE = {
 
 export default function CheckoutForm() {
   const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
-  const [orderId, setOrderId] = useState({});
   const navegate = useNavigate();
   const { sellerId, deliveryAddress, deliveryNumber } = inputs;
   const {
@@ -43,17 +42,13 @@ export default function CheckoutForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: newSale,
+        body: JSON.stringify(newSale),
       });
-      console.log(newSale);
-      const json = await response.json();
-      // if (json.message) {
-      //   console.log(json.message);
-      // }
-      console.log(json);
-      const { id } = orderId;
-      setOrderId(id);
-      navegate(`/customer/orders/${id}`);
+      const orderId = await response.json();
+      if (orderId.message) {
+        console.log(orderId.message);
+      }
+      navegate(`/customer/orders/${orderId}`);
     } catch (error) {
       console.log(error);
     }

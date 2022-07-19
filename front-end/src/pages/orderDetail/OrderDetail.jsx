@@ -26,7 +26,7 @@ export default function OrderDetail() {
   const { orderId } = useParams();
   const requestApi = async () => {
     try {
-      const response = await fetch('http://localhost:3001/sales/1', {
+      const response = await fetch(`http://localhost:3001/sales/${orderId}`, {
         method: 'GET',
       });
       const json = await response.json();
