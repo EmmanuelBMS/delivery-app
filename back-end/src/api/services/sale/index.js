@@ -18,7 +18,7 @@ const create = async (newSale) => {
 };
 
 const findByIdSale = async (id) => {
-  const sales = Sale.findAll({
+  const sales = Sale.findOne({
     where: { id },
     include: [
       { model: Product, as: 'products' },
