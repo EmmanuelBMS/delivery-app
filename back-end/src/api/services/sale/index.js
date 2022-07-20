@@ -2,6 +2,7 @@ const { Sale, SaleProduct, sequelize, Product } = require('../../../database/mod
 
 const create = async (newSale) => {
   const { sale, product } = newSale;
+  let result;
 
   await sequelize.transaction(async (t) => {
     const { dataValues } = await Sale.create(sale, { transaction: t });
@@ -14,8 +15,11 @@ const create = async (newSale) => {
     });
 
     await Promise.all(saleProducts);
-    return dataValues.id
+
+    result = dataValues.id;
   });
+
+  return result;
 };
 
 const findByIdSale = async (id) => {
@@ -40,7 +44,7 @@ const findAllByIdSales = async (id, role) => {
   }
 
   return Sale.findAll({
-    where: { saleId: id },
+    where: { sellerId: id },
     include: [
       { model: Product, as: 'products' },
     ],
