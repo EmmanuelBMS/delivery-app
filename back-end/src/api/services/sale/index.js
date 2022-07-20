@@ -14,11 +14,12 @@ const create = async (newSale) => {
     });
 
     await Promise.all(saleProducts);
+    return dataValues.id
   });
 };
 
 const findByIdSale = async (id) => {
-  const sales = Sale.findAll({
+  const sales = Sale.findOne({
     where: { id },
     include: [
       { model: Product, as: 'products' },

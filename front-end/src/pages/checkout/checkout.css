@@ -1,11 +1,21 @@
-.checkoutButton {
+.main-content {
 
-  @apply fixed bg-[#256B52] rounded-lg font-bold text-white px-4 py-2 bottom-2 right-2 ;
+  @apply flex flex-col items-start mx-auto justify-center ;
 
 }
 
-.cardPrice {
+.main-content-table {
 
-  @apply bg-blue-200 py-1 px-2 rounded relative left-2 top-1 text-xl font-extrabold ;
+  @apply border-2 shadow-sm shadow-black rounded ;
+
+  @apply p-4 px-8 mx-auto text-justify w-2/3 ;
+
+}
+
+.main-content-form {
+
+  @apply border-2 shadow-sm shadow-black rounded mx-auto ;
+
+  @apply p-4 px-8 mx-auto text-justify w-2/3 ;
 
 }

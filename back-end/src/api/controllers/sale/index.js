@@ -26,9 +26,9 @@ const findAllByIdSales = async (req, res, next) => {
 const create = async (req, res, next) => {
   try {
   const { sale, product } = req.body;
-    await saleService.create({ sale, product });
+    const result = await saleService.create({ sale, product });
 
-    return res.status(StatusCodes.CREATED).end();
+    return res.status(StatusCodes.CREATED).json(result);
   } catch (error) {
     next(error);
   }

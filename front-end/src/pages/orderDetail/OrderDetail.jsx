@@ -1,6 +1,5 @@
-import React from 'react';
-/* import { useParams } from 'react-router-dom'; */
-import CheckoutTable from '../../components/checkoutTable/CheckoutTable';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 
 const DATA_TESTID_ID = 'customer_order_details__element-order-details-label-order-id';
@@ -12,6 +11,7 @@ export default function OrderDetail() {
     pedidoStatus: 'pendente',
     totalPedido: 20,
   }];
+  const [order, setOrder] = useState(api);
   function padTo2Digits(num) {
     return num.toString().padStart(2, '0');
   }
@@ -23,13 +23,33 @@ export default function OrderDetail() {
       date.getFullYear(),
     ].join('/');
   }
-  /* const { orderId } = useParams(); */
+  const { orderId } = useParams();
+  const requestApi = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/sales/${orderId}`, {
+        method: 'GET',
+      });
+      const json = await response.json();
+      console.log(Array(json));
+      if (json.message) {
+        console.log(json.message);
+      }
+      setOrder(Array(json));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    requestApi();
+  }, []);
+
   return (
     <div className="flex flex-col items-center">
       <Navbar />
       <main className="w-[80vw]">
         <div className="mt-10">
-          {api.map((orderInfo) => (
+          {order.map((orderInfo) => (
             <div className="flex justify-between" key={ orderInfo.pedidoId }>
               <div>
                 <strong>PEDIDO</strong>
@@ -51,7 +71,6 @@ export default function OrderDetail() {
             </div>
           ))}
         </div>
-        <CheckoutTable />
       </main>
     </div>
   );

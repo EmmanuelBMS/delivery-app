@@ -4,7 +4,7 @@ import Login from './pages/login/Login';
 import Products from './pages/product/Products';
 import Register from './pages/register/Register';
 import Checkout from './pages/checkout/Checkout';
-import Order from './pages/order/Order';
+import Order from './pages/myOrders/myOrders';
 import OrderDetail from './pages/orderDetail/OrderDetail';
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
         <Route path="checkout" element={ <Checkout /> } />
         <Route path="products" element={ <Products /> } />
         <Route path="orders" element={ <Order /> } />
+
       </Route>
     </Routes>
   );

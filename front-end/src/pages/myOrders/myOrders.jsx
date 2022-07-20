@@ -1,46 +1,70 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
+import './myOrders.css';
+
 import Navbar from '../../components/Navbar/Navbar';
-import './order.css';
-
-const api = [{
-  pedidoId: '0001',
-  pedidoStatus: 'pendente',
-  totalPedido: 20,
-  dataPedido: new Date(Date.now()),
-}, {
-  pedidoId: '0002',
-  pedidoStatus: 'preparando',
-  totalPedido: 20,
-  dataPedido: new Date(Date.now()),
-}, {
-  pedidoId: '0003',
-  pedidoStatus: 'entregue',
-  totalPedido: 20,
-  dataPedido: new Date(Date.now()),
-}];
-/* funçoes para formatar a data no formato dd/mm/yyyy */
-function padTo2Digits(num) {
-  return num.toString().padStart(2, '0');
-}
-
-function formatDate(date) {
-  return [
-    padTo2Digits(date.getDate()),
-    padTo2Digits(date.getMonth() + 1),
-    date.getFullYear(),
-  ].join('/');
-}
-
-// 👇️ 24/10/2021 (mm/dd/yyyy)
-// console.log(formatDate(new Date(Date.now())));
+import { userContext } from '../../context/UserContextProvider';
 
 export default function Order() {
+  const { requestTokenValidate } = useContext(userContext);
+  
+  const [ user ] = useState(localStorage.getItem('user'))
+  
+  /* funçoes para formatar a data no formato dd/mm/yyyy */
+  const [salesReq, setSalesReq] = useState([])
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  function formatDate(date) {
+    return [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('/');
+  }
+  
+  
+  // FIZ A FUNÇÂO AQUI PARA PEGAR TODAS OS SALES
+  async function SalesReq() {
+    try {
+      const response = await fetch('http://localhost:3001/sales', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: user.id,
+          role: user.role
+        }),
+      });
+      const json = await response.json();
+      console.log(json);
+      if (json.message) {
+        console.log(json.message);
+      }
+      setSalesReq(json);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  // 👇️ 24/10/2021 (mm/dd/yyyy)
+  // console.log(formatDate(new Date(Date.now())));
+  
+  useEffect(() => {
+    requestTokenValidate();
+    SalesReq();
+  }, []);
+
+  // console.log(salesReq);
+
+
   return (
     <div>
       <Navbar />
       <main className="flex flex-wrap gap-10 items-center justify-center">
-        {api.map(({ dataPedido, pedidoId, pedidoStatus, totalPedido }) => (
+        {salesReq.map(({ dataPedido, pedidoId, pedidoStatus, totalPedido }) => (
           <Link
             to={ `${pedidoId}` }
             className="orderCard"
