@@ -55,8 +55,6 @@ export default function Order() {
     SalesReq();
   }, []);
 
-  console.log(salesReq);
-
   return (
     <div>
       <Navbar />
