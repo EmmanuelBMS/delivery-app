@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './myOrders.css';
 
@@ -7,15 +7,15 @@ import { userContext } from '../../context/UserContextProvider';
 
 export default function Order() {
   const { requestTokenValidate } = useContext(userContext);
-  
-  const [ user ] = useState(localStorage.getItem('user'))
-  
+
+  const [user] = useState(JSON.parse(localStorage.getItem('user')));
+
   /* funçoes para formatar a data no formato dd/mm/yyyy */
-  const [salesReq, setSalesReq] = useState([])
+  const [salesReq, setSalesReq] = useState([]);
   function padTo2Digits(num) {
     return num.toString().padStart(2, '0');
   }
-  
+
   function formatDate(date) {
     return [
       padTo2Digits(date.getDate()),
@@ -23,20 +23,18 @@ export default function Order() {
       date.getFullYear(),
     ].join('/');
   }
-  
-  
+
   // FIZ A FUNÇÂO AQUI PARA PEGAR TODAS OS SALES
   async function SalesReq() {
+    const { id, role } = user;
+    console.log(id, role);
+
     try {
-      const response = await fetch('http://localhost:3001/sales', {
+      const response = await fetch(`http://localhost:3001/sales/search?id=${id}&role=${role}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          id: user.id,
-          role: user.role
-        }),
       });
       const json = await response.json();
       console.log(json);
@@ -48,17 +46,16 @@ export default function Order() {
       console.log(error);
     }
   }
-  
+
   // 👇️ 24/10/2021 (mm/dd/yyyy)
   // console.log(formatDate(new Date(Date.now())));
-  
+
   useEffect(() => {
     requestTokenValidate();
     SalesReq();
   }, []);
 
   // console.log(salesReq);
-
 
   return (
     <div>
