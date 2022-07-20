@@ -23,8 +23,7 @@ const findAll = async (req, res, next) => {
   }
 };
 
-
 module.exports = {
   create,
-  findAll
+  findAll,
 };
