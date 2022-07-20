@@ -33,7 +33,7 @@ const findAllByIdSales = async (id, role) => {
     return Sale.findAll({
       where: { userId: id },
       include: [
-        { model: SaleProduct, as: 'products' },
+        { model: Product, as: 'products' },
       ],
     });
   }
@@ -41,7 +41,7 @@ const findAllByIdSales = async (id, role) => {
   return Sale.findAll({
     where: { saleId: id },
     include: [
-      { model: SaleProduct, as: 'products' },
+      { model: Product, as: 'products' },
     ],
   });
 };
