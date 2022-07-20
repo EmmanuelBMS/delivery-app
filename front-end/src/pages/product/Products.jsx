@@ -44,7 +44,7 @@ export default function Products() {
           Ver carrinho R$
           {' '}
           <span data-testid="customer_products__checkout-bottom-value">
-            {changeDotToCommaOfPrice(totalItemsPrice() || 0)}
+            {changeDotToCommaOfPrice(totalItemsPrice().toFixed(2) || 0)}
 
           </span>
         </button>

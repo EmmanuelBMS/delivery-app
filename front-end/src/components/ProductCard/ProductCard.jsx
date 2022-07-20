@@ -24,7 +24,6 @@ export default function ProductCard({ item }) {
   }
   function countInputValidate(productObj, count) {
     if (count <= 0) {
-      console.log('entrei');
       setItemCount(0);
       productObj.count = 0;
       const productsCartFiltred = copyCartState.filter((product) => product.count !== 0);
@@ -54,11 +53,8 @@ export default function ProductCard({ item }) {
     }
     if (productFoundInCart) {
       if (!newCount) {
-        console.log(copyCartState, 'SEM splice');
-
         const indexObjInCart = copyCartState.indexOf(productFoundInCart);
         copyCartState.splice(indexObjInCart, 1);
-        console.log(copyCartState, 'COM splice');
       } else {
         productFoundInCart.count = newCount;
       }

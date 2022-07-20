@@ -20,6 +20,11 @@ const findOne = async (email, name) => {
   return user;
 };
 
+const findAll = async () => {
+  const user = await User.findAll({ where: { role: 'seller' } });
+  return user;
+};
+
 const create = async (newUser) => {
   await findOne(newUser.email, newUser.name);
 
@@ -29,7 +34,6 @@ const create = async (newUser) => {
 
   const { dataValues: userCreated } = await User.create(objUser);
   delete userCreated.password;
-  delete userCreated.id;
   const token = generate(userCreated);
 
   return { ...userCreated, token };
@@ -38,4 +42,5 @@ const create = async (newUser) => {
 module.exports = {
   create,
   findOne,
+  findAll,
 };

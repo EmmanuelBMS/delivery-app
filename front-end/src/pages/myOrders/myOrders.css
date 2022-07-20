@@ -1,0 +1,31 @@
+.orderCard {
+
+  @apply flex mt-10 w-[22rem] gap-2 h-[7rem] border justify-between bg-[#EAF1EF] ;
+
+}
+
+.statusOrderContainer {
+
+  @apply my-auto w-[100%] flex justify-center items-center h-[80%] bg-zinc-300 ;
+
+  @apply rounded-lg ;
+
+}
+
+.statusOrder-preparando {
+
+  @apply bg-green-200 ;
+
+}
+
+.statusOrder-transito {
+
+  @apply bg-green-500 text-white ;
+
+}
+
+.statusOrder-entregue {
+
+  @apply bg-green-700 text-white ;
+
+}
