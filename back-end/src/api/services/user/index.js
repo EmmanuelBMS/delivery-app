@@ -21,7 +21,7 @@ const findOne = async (email, name) => {
 };
 
 const findAll = async () => {
-  const user = await User.findAll({where: { role: 'seller' }});
+  const user = await User.findAll({ where: { role: 'seller' } });
   return user;
 };
 
