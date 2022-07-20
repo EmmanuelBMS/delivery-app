@@ -60,8 +60,6 @@ export default function OrderDetail() {
       return t;
     }, 0);
   }
-  console.log(totalPrice());
-  console.log(product);
 
   return (
     <div className="flex flex-col items-center">
@@ -162,7 +160,7 @@ export default function OrderDetail() {
             <span
               data-testid="customer_order_details__element-order-total-price"
             >
-              {` ${changeDotToCommaOfPrice(totalPrice()) || 0}`}
+              {` ${changeDotToCommaOfPrice(totalPrice().toFixed(2)) || 0}`}
             </span>
           </div>
         </div>
