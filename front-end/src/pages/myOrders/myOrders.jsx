@@ -1,17 +1,17 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import './myOrders.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import { userContext } from '../../context/UserContextProvider';
-import { useContext } from 'react';
-
 
 export default function Order() {
   const { requestTokenValidate } = useContext(userContext);
   
-  /* funçoes para formatar a data no formato dd/mm/yyyy */
+  const [ user ] = useState(localStorage.getItem('user'))
   
+  /* funçoes para formatar a data no formato dd/mm/yyyy */
+  const [salesReq, setSalesReq] = useState([])
   function padTo2Digits(num) {
     return num.toString().padStart(2, '0');
   }
@@ -28,11 +28,22 @@ export default function Order() {
   // FIZ A FUNÇÂO AQUI PARA PEGAR TODAS OS SALES
   async function SalesReq() {
     try {
-      const response = await fetch('http://localhost:3001/sales');
-      const salesReq = await response.json();
-      if (salesReq) {
-          return salesReq;
+      const response = await fetch('http://localhost:3001/sales', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: user.id,
+          role: user.role
+        }),
+      });
+      const json = await response.json();
+      console.log(json);
+      if (json.message) {
+        console.log(json.message);
       }
+      setSalesReq(json);
     } catch (error) {
       console.log(error);
     }
@@ -41,14 +52,12 @@ export default function Order() {
   // 👇️ 24/10/2021 (mm/dd/yyyy)
   // console.log(formatDate(new Date(Date.now())));
   
-  const salesReq = SalesReq()
-  // COLOQUEI A FUNÇÂO ESPERANDO O BANCO
-  console.log(salesReq);
-
-
   useEffect(() => {
     requestTokenValidate();
+    SalesReq();
   }, []);
+
+  // console.log(salesReq);
 
 
   return (
