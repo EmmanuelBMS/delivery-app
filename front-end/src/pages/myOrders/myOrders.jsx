@@ -4,10 +4,11 @@ import './myOrders.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import { userContext } from '../../context/UserContextProvider';
+import { productsContext } from '../../context/ProductsContextProvider';
 
 export default function Order() {
   const { requestTokenValidate } = useContext(userContext);
-
+  const { changeDotToCommaOfPrice } = useContext(productsContext);
   const [user] = useState(JSON.parse(localStorage.getItem('user')));
 
   /* funçoes para formatar a data no formato dd/mm/yyyy */
@@ -17,17 +18,17 @@ export default function Order() {
   }
 
   function formatDate(date) {
+    const dateFormatedUTC = new Date(date);
     return [
-      padTo2Digits(date.getDate()),
-      padTo2Digits(date.getMonth() + 1),
-      date.getFullYear(),
+      padTo2Digits(dateFormatedUTC.getDate()),
+      padTo2Digits(dateFormatedUTC.getMonth() + 1),
+      dateFormatedUTC.getFullYear(),
     ].join('/');
   }
 
   // FIZ A FUNÇÂO AQUI PARA PEGAR TODAS OS SALES
   async function SalesReq() {
     const { id, role } = user;
-    console.log(id, role);
 
     try {
       const response = await fetch(`http://localhost:3001/sales/search?id=${id}&role=${role}`, {
@@ -37,7 +38,6 @@ export default function Order() {
         },
       });
       const json = await response.json();
-      console.log(json);
       if (json.message) {
         console.log(json.message);
       }
@@ -55,33 +55,33 @@ export default function Order() {
     SalesReq();
   }, []);
 
-  // console.log(salesReq);
+  console.log(salesReq);
 
   return (
     <div>
       <Navbar />
       <main className="flex flex-wrap gap-10 items-center justify-center">
-        {salesReq.map(({ dataPedido, pedidoId, pedidoStatus, totalPedido }) => (
+        {salesReq.map(({ saleDate, id, status, totalPrice }) => (
           <Link
-            to={ `${pedidoId}` }
+            to={ `${id}` }
             className="orderCard"
-            key={ pedidoId }
+            key={ id }
           >
             <div
               className="flex flex-col bg-white p-8 my-auto"
             >
               <span className="text-sm">pedido</span>
               <span
-                data-testid={ `customer_orders__element-order-id-${pedidoId}` }
+                data-testid={ `customer_orders__element-order-id-${id}` }
               >
-                {pedidoId}
+                {id}
               </span>
             </div>
-            <div className={ `statusOrderContainer statusOrder-${pedidoStatus} ` }>
+            <div className={ `statusOrderContainer statusOrder-${status} ` }>
               <strong
-                data-testid={ `customer_orders__element-delivery-status-${pedidoId}` }
+                data-testid={ `customer_orders__element-delivery-status-${id}` }
               >
-                {pedidoStatus}
+                {status}
               </strong>
             </div>
             <div
@@ -89,17 +89,17 @@ export default function Order() {
             >
               <span
                 className="bg-blue-200 px-2 rounded"
-                data-testid={ `customer_orders__element-order-date-${pedidoId}` }
+                data-testid={ `customer_orders__element-order-date-${id}` }
               >
-                {formatDate(dataPedido)}
+                {formatDate(saleDate)}
               </span>
               <div className="bg-blue-200 px-6 rounded">
                 R$
                 {' '}
                 <span
-                  data-testid={ `customer_orders__element-card-price-${pedidoId}` }
+                  data-testid={ `customer_orders__element-card-price-${id}` }
                 >
-                  {totalPedido}
+                  {changeDotToCommaOfPrice(totalPrice)}
                 </span>
               </div>
             </div>
