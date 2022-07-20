@@ -14,7 +14,7 @@ const findById = async (req, res, next) => {
 
 const findAllByIdSales = async (req, res, next) => {
   try {
-    const { role, id } = req.body;
+    const { id, role } = req.query;
     const result = await saleService.findAllByIdSales(id, role);
 
     return res.status(StatusCodes.OK).json(result);
