@@ -49,5 +49,5 @@ module.exports = {
   findById,
   create,
   findAllByIdSales,
-  update
+  update,
 };

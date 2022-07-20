@@ -7,7 +7,7 @@ import { userContext } from '../../context/UserContextProvider';
 const INITIAL_INPUTS_STATE = {
   sellerId: 2,
   deliveryAddress: '',
-  deliveryNumber: 123,
+  deliveryNumber: '',
 };
 
 export default function CheckoutForm() {
@@ -41,6 +41,7 @@ export default function CheckoutForm() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `${user.token}`,
         },
         body: JSON.stringify(newSale),
       });

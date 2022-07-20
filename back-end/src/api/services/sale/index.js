@@ -1,8 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const { Sale, User, SaleProduct, sequelize, Product } = require('../../../database/models');
-const sales = require('../../../database/models/sales');
 const generateError = require('../../../helpers/generateError');
-
 
 const create = async (newSale) => {
   const { sale, product } = newSale;
@@ -27,43 +25,42 @@ const create = async (newSale) => {
 };
 
 const updateSale = async (id, status) => {
-  const sale = await Sale.findOne({where: { id } })
-  if(!sale){
+  const sale = await Sale.findOne({ where: { id } });
+  if (!sale) {
     throw generateError({
       status: StatusCodes.NOT_FOUND,
-      message: "Sale not found",
-    })
+      message: 'Sale not found',
+    });
   }
-  await Sale.update({ status },{where: { id } })
-}
+  await Sale.update({ status }, { where: { id } });
+};
 
 const findByIdSale = async (id) => {
   const sale = Sale.findOne({
     where: { id },
     include: [
       { model: Product, as: 'products' },
-      { model: User, as: 'seller' }
+      { model: User, as: 'seller' },
     ],
   });
 
-  if(!sale){
+  if (!sale) {
     throw generateError({
       status: StatusCodes.NOT_FOUND,
-      message: "Sale not found",
-    })
+      message: 'Sale not found',
+    });
   }
 
   return sale;
 };
 
 const findAllByIdSales = async (id, role) => {
-  let result
   if (role === 'customer') {
     return Sale.findAll({
       where: { userId: id },
       include: [
         { model: Product, as: 'products' },
-        { model: Sale, as: 'seller' }
+        { model: Sale, as: 'seller' },
       ],
     });
   }
