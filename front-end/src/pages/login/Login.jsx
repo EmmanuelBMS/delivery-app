@@ -21,6 +21,16 @@ export default function Login() {
   const isLoginInfosValid = !emailRegex.test(email)
     || password.length < MIN_PASSWORD_LENGTH;
 
+  function handleNagivationByRole(role) {
+    switch (role) {
+    case 'administrator':
+      navegate('/admin/manage');
+      break;
+    default:
+      navegate('/customer/products');
+    }
+  }
+
   async function handleLoginRequest(userLogin) {
     try {
       const response = await fetch('http://localhost:3001/login', {
@@ -38,7 +48,7 @@ export default function Login() {
       if (json) {
         setUser(json);
         localStorage.setItem('user', JSON.stringify(json));
-        navegate('/customer/products');
+        handleNagivationByRole(json.role);
       }
     } catch (error) {
       console.log(error);
