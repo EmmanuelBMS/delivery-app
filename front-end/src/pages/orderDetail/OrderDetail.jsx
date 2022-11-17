@@ -28,7 +28,6 @@ export default function OrderDetail() {
       price: prod.price,
       quantity: prod.SaleProduct.quantity }));
 
-    console.log(productObj);
     setProduct(productObj);
   }
 

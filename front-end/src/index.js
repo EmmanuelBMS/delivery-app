@@ -6,13 +6,16 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import UserContextProvider from './context/UserContextProvider'
 import ProductsContextProvider from './context/ProductsContextProvider'
+import AllUsersContextProvider from './context/AllUsersContexProvider'
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserContextProvider>
         <ProductsContextProvider>
-          <App />
+          <AllUsersContextProvider>
+            <App />
+          </AllUsersContextProvider>
         </ProductsContextProvider>
       </UserContextProvider>
     </BrowserRouter>

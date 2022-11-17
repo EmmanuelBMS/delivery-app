@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useHandleChange from '../../hooks/useHandleChange';
+import { AllUsersContext } from '../../context/AllUsersContexProvider';
 
 const INITIAL_INPUTS_STATE = {
   name: '',
@@ -12,6 +13,7 @@ export default function CreateUserForm() {
   const [inputs, handleChange] = useHandleChange(INITIAL_INPUTS_STATE);
   const { name, email, password } = inputs;
   const user = localStorage.getItem('user');
+  const { requestAllUsers } = useContext(AllUsersContext);
 
   async function submitSell() {
     try {
@@ -27,6 +29,7 @@ export default function CreateUserForm() {
       if (userId.message) {
         console.log(userId.message);
       }
+      requestAllUsers(user);
     } catch (error) {
       console.log(error);
     }
