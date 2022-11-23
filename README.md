@@ -16,6 +16,7 @@ com validações em back-end de login, criação de novas contas e telas diferen
 - Reaproveitamento de Código
 - Metodologias Aǵeis
 - Arquitetura de cógido MSC
+- Padronização de commits
 
 
 ## Tecnologias: 
