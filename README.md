@@ -1,10 +1,53 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Delivery App
+
+## Sobre o projeto:
+
+Projeto full stack desenvolvido em grupo durante o curso da Trybe, onde o objetivo era criar uma aplicação de compras e delivery de bebidas, 
+com validações em back-end de login, criação de novas contas e telas diferentes para consumidores, vendedores e administradores.
+
+## O que eu aprendi:
+
+- Aprendi a conectar frontend e backend.
+- Validações de formulário no front e validações em backend.
+- Aprimorar CSS (responsividade)
+- Criar uma aplicação completa do início ao fim
+
+## Tecnologias: 
+
+### Frontend:
+
+- React
+- Hooks & Hooks personalizados
+- Context
+- Tailwind
+- ESlint
+
+### Backend:
+
+- MySQL
+- Sequelize
+- Node.js (server)
+- Express
+- ESlint
+
+## Como Rodar aplicação:
+
+1. Faça o clone do repositório com o comando ***git clone git@github.com:EmmanuelBMS/delivery-app.git***
+2. Começando pelo backend rode o comando ***cd back-end && npm install*** para instalar as dependências do backend
+3. Ainda no backend procure pelo arquivo ***.env.rename*** e substitua as informações com as suas configurações, em seguida renomeie o arquivo para .env
+4. Agora basta rodar o comando ***npm db:reset && npm start***
+5. Abra outra janela do seu terminal e navegue até o diretório do projeto.
+6. Com o terminal aberto rode o comando ***cd front-end && npm install*** para instalar as dependências do frontend.
+7. Agora bastar rodar o comando ***npm start*** e uma tela do seu navegador se abrirá com a aplicação.
+
+## Criticas e Sugestões:
+
+- Críticas construtivas são sempre bem vindas, pode me procurar por DM ou abrir uma issue.
+- Sugestões de melhorias de código, crie uma issue.
+
+# Agradecimentos:
+
+1. Minha esposa e família por me apoiar nessa nova jornada
+2. Trybe pelo curso e todo apoio !
+3. Galera do grupo que se uniu e construiu essa aplicação fantástica !
+
