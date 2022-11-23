@@ -40,12 +40,13 @@ com validações em back-end de login, criação de novas contas e telas diferen
 ## Como Rodar aplicação:
 
 1. Faça o clone do repositório com o comando ***git clone git@github.com:EmmanuelBMS/delivery-app.git***
-2. Começando pelo backend rode o comando ***cd back-end && npm install*** para instalar as dependências do backend
-3. Ainda no backend procure pelo arquivo ***.env.rename*** e substitua as informações com as suas configurações, em seguida renomeie o arquivo para .env
-4. Agora basta rodar o comando ***npm db:reset && npm start***
-5. Abra outra janela do seu terminal e navegue até o diretório do projeto.
-6. Com o terminal aberto rode o comando ***cd front-end && npm install*** para instalar as dependências do frontend.
-7. Agora bastar rodar o comando ***npm start*** e uma tela do seu navegador se abrirá com a aplicação.
+2. Navegue para o repositório clonado com o comando *** cd delivery-app***
+3. Começando pelo backend rode o comando ***cd back-end && npm install*** para instalar as dependências do backend
+4. Ainda no backend procure pelo arquivo ***.env.rename*** e substitua as informações com as suas configurações, em seguida renomeie o arquivo para .env
+5. Agora basta rodar o comando ***npm db:reset && npm start***
+6. Abra outra janela do seu terminal e navegue até o diretório do projeto.
+7. Com o terminal aberto rode o comando ***cd front-end && npm install*** para instalar as dependências do frontend.
+8. Agora bastar rodar o comando ***npm start*** e uma tela do seu navegador se abrirá com a aplicação.
 
 ## Criticas e Sugestões:
 
