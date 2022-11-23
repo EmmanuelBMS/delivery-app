@@ -11,6 +11,12 @@ com validações em back-end de login, criação de novas contas e telas diferen
 - Validações de formulário no front e validações em backend.
 - Aprimorar CSS (responsividade)
 - Criar uma aplicação completa do início ao fim
+- Trabalhar com componentes funcionais
+- Criar uma API REST && RESTFULL
+- Reaproveitamento de Código
+- Metodologias Aǵeis
+- Arquitetura de cógido MSC
+
 
 ## Tecnologias: 
 
